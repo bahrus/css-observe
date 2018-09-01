@@ -5,10 +5,14 @@ Syntax:
 
 ```html
 <script type="module" src="../css-observe.js"></script>
-        <css-observe id="myObserver" observe selector="div[test]"></css-observe>
-        <div test>
-            I am here
-        </div>
+<css-observe id="myObserver" observe selector="div[test]"></css-observe>
+<div test>
+    I am here
+</div>
 ```
 
 css-observe will fire event: latest-match-changed, and the newly added element can be obtained from event.detail.value.
+
+## Implementation 
+
+Based off of an idea found [here](https://davidwalsh.name/detect-node-insertion)
