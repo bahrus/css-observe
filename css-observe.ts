@@ -66,7 +66,11 @@ export class CssObserve extends observeCssSelector(XtallatX(HTMLElement)){
     }
     insertListener(e: any){
         if (e.animationName === this.id) {
-            this.latestMatch = e.target;
+            const target = e.target;
+            setTimeout(() =>{
+                this.latestMatch = target;
+            }, 0)
+            
         }
     }
 }

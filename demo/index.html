@@ -9,7 +9,7 @@
 <body>
     <div>
         <script async type="module" src="https://unpkg.com/p-d.p-u@0.0.67/p-d-x.js?module"></script>
-        <script type="module" src="../css-observe.js"></script>
+        <script type="module" src="https://unpkg.com/css-observe@0.0.1/css-observe.js?module"></script>
         <css-observe disabled id="myObserver" observe selector="div[test]"></css-observe>
         <p-d on="latest-match-changed" to="{innerText:detail.value.dataset.message}"></p-d>
         <div></div>
