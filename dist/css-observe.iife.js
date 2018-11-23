@@ -72,12 +72,16 @@ function observeCssSelector(superClass) {
                 // document.removeEventListener("MSAnimationStart", this._boundInsertListener); // IE
                 // document.removeEventListener("webkitAnimationStart", this._boundInsertListener); // Chrome + Safari
             }
-            if (super.disconnectedCallback)
+            if (super.disconnectedCallback !== undefined)
                 super.disconnectedCallback();
         }
     };
 }
 const disabled = 'disabled';
+/**
+ * Base class for many xtal- components
+ * @param superClass
+ */
 function XtallatX(superClass) {
     return class extends superClass {
         constructor() {
@@ -87,20 +91,39 @@ function XtallatX(superClass) {
         static get observedAttributes() {
             return [disabled];
         }
+        /**
+         * Any component that emits events should not do so if it is disabled.
+         * Note that this is not enforced, but the disabled property is made available.
+         * Users of this mix-in should ensure not to call "de" if this property is set to true.
+         */
         get disabled() {
             return this._disabled;
         }
         set disabled(val) {
             this.attr(disabled, val, '');
         }
+        /**
+         * Set attribute value.
+         * @param name
+         * @param val
+         * @param trueVal String to set attribute if true.
+         */
         attr(name, val, trueVal) {
             const v = val ? 'set' : 'remove'; //verb
             this[v + 'Attribute'](name, trueVal || val);
         }
+        /**
+         * Turn number into string with even and odd values easy to query via css.
+         * @param n
+         */
         to$(n) {
             const mod = n % 2;
             return (n - mod) / 2 + '-' + mod;
         }
+        /**
+         * Increment event count
+         * @param name
+         */
         incAttr(name) {
             const ec = this._evCount;
             if (name in ec) {
@@ -118,8 +141,14 @@ function XtallatX(superClass) {
                     break;
             }
         }
-        de(name, detail) {
-            const eventName = name + '-changed';
+        /**
+         * Dispatch Custom Event
+         * @param name Name of event to dispatch ("-changed" will be appended if asIs is false)
+         * @param detail Information to be passed with the event
+         * @param asIs If true, don't append event name with '-changed'
+         */
+        de(name, detail, asIs) {
+            const eventName = name + (asIs ? '' : '-changed');
             const newEvent = new CustomEvent(eventName, {
                 detail: detail,
                 bubbles: true,
@@ -129,6 +158,10 @@ function XtallatX(superClass) {
             this.incAttr(eventName);
             return newEvent;
         }
+        /**
+         * Needed for asynchronous loading
+         * @param props Array of property names to "upgrade", without losing value set while element was Unknown
+         */
         _upgradeProperties(props) {
             props.forEach(prop => {
                 if (this.hasOwnProperty(prop)) {

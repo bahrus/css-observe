@@ -8,11 +8,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "xtal-latx": "0.0.24"
+    "xtal-latx": "0.0.76"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.0.0",
-    "jiife": "^0.0.7"
+    "jiife": "0.0.8"
   },
   "repository": {
     "type": "git",
