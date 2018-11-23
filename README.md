@@ -1,3 +1,9 @@
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/css-observe)
+
+<a href="https://nodei.co/npm/css-observe/"><img src="https://nodei.co/npm/css-observe.png"></a>
+
+<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/css-observe@0.0.5/dist/css-observe.iife.min.js?compression=gzip">
+
 # css-observe
 Fire a custom event whenever an element matching a specified selector is added.
 
