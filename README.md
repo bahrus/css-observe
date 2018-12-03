@@ -2,7 +2,7 @@
 
 <a href="https://nodei.co/npm/css-observe/"><img src="https://nodei.co/npm/css-observe.png"></a>
 
-
+<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/css-observe@0.0.8/dist/css-observe.iife.min.js?compression=gzip">
 
 # css-observe
 Fire a custom event whenever an element matching a specified selector is added.

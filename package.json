@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.0.0",
-    "jiife": "0.0.8"
+    "jiife": "0.0.9"
   },
   "repository": {
     "type": "git",
