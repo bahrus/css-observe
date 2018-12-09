@@ -45,3 +45,15 @@ Based off of an idea found [here](https://davidwalsh.name/detect-node-insertion)
 ```
 -->
 
+## Viewing Your Element
+
+```
+$ polymer serve
+```
+
+## Running Tests
+
+```
+$ npm tests
+```
+
