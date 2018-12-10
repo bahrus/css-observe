@@ -4,17 +4,18 @@
   "description": "Fire a custom event whenever an element matching a specified selector is added.",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "main": "css-observe.js",
+  "module": "css-observe.js",
   "scripts": {
     "test": "node createIIFE.js && tape test/*.js"
   },
   "dependencies": {
-    "xtal-latx": "0.0.76"
+    "xtal-latx": "0.0.84"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "@types/node": "^10.9.1",
     "@types/tape": "4.2.32",
-    "jiife": "0.0.9",
+    "jiife": "0.0.10",
     "tape": "^4.9.1",
     "xtal-test": "0.0.10"
   },
