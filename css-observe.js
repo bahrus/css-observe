@@ -9,6 +9,7 @@ export class CssObserve extends observeCssSelector(XtallatX(HTMLElement)) {
         return super.observedAttributes.concat([observe, selector]);
     }
     connectedCallback() {
+        this.style.display = 'none';
         this._upgradeProperties([selector, observe]);
         this._connected = true;
         this.onPropsChange();

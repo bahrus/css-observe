@@ -2,12 +2,27 @@
 
 <a href="https://nodei.co/npm/css-observe/"><img src="https://nodei.co/npm/css-observe.png"></a>
 
-<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/css-observe@0.0.8/dist/css-observe.iife.min.js?compression=gzip">
+<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/css-observe@0.0.9/dist/css-observe.iife.min.js?compression=gzip">
 
 # css-observe
 Fire a custom event whenever an element matching a specified selector is added.
 
-Syntax:
+## Syntax
+
+<!--
+```
+<custom-element-demo>
+<template>
+    <div>
+        <wc-info package-name="npm install css-observe" href="https://unpkg.com/css-observe@0.0.9/web-components.json"></wc-info>
+        <script type="module" src="https://unpkg.com/wc-info@0.0.13/wc-info.js?module"></script>
+    </div>
+</template>
+</custom-element-demo>
+```
+-->
+
+## Example
 
 ```html
 <script type="module" src="../css-observe.js"></script>

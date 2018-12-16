@@ -1,0 +1,23 @@
+{
+    "tags":[
+        {
+            "label": "css-observe",
+            "description": "Fire a custom event whenever an element matching a specified selector is added.",
+            "attributes": [
+                {
+                    "label": "id",
+                    "description": "Required (unique within ShadowDOM realm) for anything to happen."
+                },{
+                    "label": "disabled",
+                    "description":"Nothing happens if this attribute/property is present/true."
+                },{
+                    "label": "observe",
+                    "description": "This attribute/property must be present/true for anything to happen."
+                },{
+                    "label": "selector",
+                    "description":"CSS selector to monitoffor."
+                }
+            ]
+        }
+    ]
+}

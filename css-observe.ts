@@ -12,6 +12,7 @@ export class CssObserve extends observeCssSelector(XtallatX(HTMLElement)){
     }
     _connected!: boolean;
     connectedCallback(){
+        this.style.display='none';
         this._upgradeProperties([selector, observe]);
         this._connected = true;
         this.onPropsChange();
@@ -37,10 +38,10 @@ export class CssObserve extends observeCssSelector(XtallatX(HTMLElement)){
         const fldName = '_' + name;
         switch(name){
             case selector:
-                this[fldName] = newVal;
+                (<any>this)[fldName] = newVal;
                 break;
             case observe:
-                this[fldName] = newVal !== null;
+                (<any>this)[fldName] = newVal !== null;
                 break;
         }
         this.onPropsChange();
