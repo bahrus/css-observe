@@ -1,0 +1,65 @@
+{
+  "version": 2,
+  "tags": [
+    {
+      "name": "css-observe",
+      "jsDoc": "/**\n * @element css-observe\n */",
+      "attributes": [
+        {
+          "name": "selector",
+          "description": "CSS selector to monitor for.",
+          "jsDoc": "/**\n     * CSS selector to monitor for.\n     * @attr\n     */",
+          "type": "any"
+        },
+        {
+          "name": "observe",
+          "description": "This attribute/property must be present/true for anything to happen.",
+          "jsDoc": "/**\n     * This attribute/property must be present/true for anything to happen.\n     * @attr\n     */",
+          "type": "any"
+        }
+      ],
+      "properties": [
+        {
+          "name": "val",
+          "type": "\"set\" | \"remove\""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "evCount",
+          "description": "Tracks how many times each event type was called.",
+          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
+          "type": "{ [key: string]: number; }"
+        },
+        {
+          "name": "asIs",
+          "type": "\"\" | \"-changed\""
+        },
+        {
+          "name": "host",
+          "type": "any"
+        },
+        {
+          "name": "selector",
+          "description": "CSS selector to monitor for.",
+          "jsDoc": "/**\n     * CSS selector to monitor for.\n     * @attr\n     */",
+          "type": "any"
+        },
+        {
+          "name": "observe",
+          "description": "This attribute/property must be present/true for anything to happen.",
+          "jsDoc": "/**\n     * This attribute/property must be present/true for anything to happen.\n     * @attr\n     */",
+          "type": "any"
+        },
+        {
+          "name": "latestMatch",
+          "type": "any"
+        }
+      ],
+      "events": [],
+      "slots": []
+    }
+  ]
+}

@@ -1,28 +1,40 @@
-import { define } from 'xtal-latx/define.js';
-import { XtallatX } from 'xtal-latx/xtal-latx.js';
-import { observeCssSelector } from 'xtal-latx/observeCssSelector.js';
+import { define } from 'trans-render/define.js';
+import { hydrate } from 'trans-render/hydrate.js';
+import { XtallatX } from 'xtal-element/xtal-latx.js';
+import { observeCssSelector } from 'xtal-element/observeCssSelector.js';
 const selector = 'selector';
 const observe = 'observe';
-export class CssObserve extends observeCssSelector(XtallatX(HTMLElement)) {
+/**
+ * @element css-observe
+ */
+export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) {
     static get is() { return 'css-observe'; }
     static get observedAttributes() {
         return super.observedAttributes.concat([observe, selector]);
     }
     connectedCallback() {
         this.style.display = 'none';
-        this._upgradeProperties([selector, observe]);
+        this.propUp([selector, observe]);
         this._connected = true;
         this.onPropsChange();
     }
     get selector() {
         return this._selector;
     }
+    /**
+     * CSS selector to monitor for.
+     * @attr
+     */
     set selector(val) {
         this.attr(selector, val);
     }
     get observe() {
         return this._observe;
     }
+    /**
+     * This attribute/property must be present/true for anything to happen.
+     * @attr
+     */
     set observe(val) {
         this.attr(observe, val, '');
     }
@@ -66,4 +78,3 @@ export class CssObserve extends observeCssSelector(XtallatX(HTMLElement)) {
     }
 }
 define(CssObserve);
-//# sourceMappingURL=css-observe.js.map

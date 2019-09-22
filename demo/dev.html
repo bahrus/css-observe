@@ -8,15 +8,28 @@
 </head>
 <body>
     <div>
-        <script async type="module" src="https://unpkg.com/p-d.p-u@0.0.67/p-d-x.js?module"></script>
-        <script type="module" src="../css-observe.js"></script>
+
         <css-observe disabled id="myObserver" observe selector="div[test]"></css-observe>
-        <p-d on="latest-match-changed" to="{innerText:detail.value.dataset.message}"></p-d>
-        <div></div>
+        <p-d on=latest-match-changed to=[-text-content] val=detail.value.dataset.message m=1></p-d>
+        <div -text-content id=target></div>
         <hr>
         <div test data-message="hello">
             I am here
         </div>
+        <!-- Use experimental import maps -->
+        <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
+        <script type="importmap-shim">
+        {
+            "imports": {
+                "xtal-element/": "../node_modules/xtal-element/",
+                "trans-render/": "../node_modules/trans-render/"
+            }
+        }
+        </script>
+        <script type="module-shim">
+            import '../css-observe.js';
+        </script>
+        <script type="module" src="https://unpkg.com/p-et-alia@0.0.47/p-d.js?module"></script>
     </div>
 </body>
 </html>
