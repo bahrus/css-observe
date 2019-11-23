@@ -6,22 +6,19 @@
   "main": "css-observe.js",
   "module": "css-observe.js",
   "scripts": {
-    "test": "tape test/*.js",
+    "test": "node test/test-all.js",
     "serve": "node node_modules/xtal-test/serve.js",
     "doc": "wca analyze css-observe.js --outFile custom-elements.json"
   },
   "dependencies": {
-    "xtal-element": "0.0.83",
-    "trans-render": "0.0.131"
+    "xtal-element": "0.0.90",
+    "trans-render": "0.0.141"
   },
   "devDependencies": {
-    "@webcomponents/webcomponentsjs": "2.2.10",
-    "@types/node": "12.7.5",
-    "@types/tape": "4.2.33",
-    "jiife": "0.0.14",
-    "tape": "4.11.0",
-    "xtal-test": "0.0.20",
-    "es-module-shims": "0.4.5"
+    "@webcomponents/webcomponentsjs": "2.4.0",
+    "@types/node": "12.12.11",
+    "xtal-test": "0.0.31",
+    "es-module-shims": "0.4.6"
   },
   "repository": {
     "type": "git",
