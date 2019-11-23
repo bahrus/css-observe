@@ -7,29 +7,21 @@
     <title>Document</title>
 </head>
 <body>
-    <template id=title>
-        <div fly>There was an old lady who swallowed a fly;</div>
-    </template>
-    <css-observe id=observer1 observe selector=[fly]></css-observe>
-    <template id=why>
-        <div mark why1>I don't know why she swallowed a fly - perhaps she'll die</div>
-    </template>
-    <div id=target1></div>
-    <template id=spider>
-        <div mark spider>There was an old lady who swallowed a spider;</div>
-    </template>
-    <css-observe observe selector=[why1]></css-observe>
-    <script>
-        observer1.addEventListener('latest-match-changed', e =>{
-            target1.appendChild(why.content.cloneNode(true));
-        });
-        customElements.whenDefined('css-observe').then(() =>{
-            target1.appendChild(title.content.cloneNode(true));
-        });
-        document.querySelector('[selector="[why1]"]').addEventListener('latest-match-changed', e =>{
-            target1.appendChild(spider.content.cloneNode(true));
-        });
-    </script>
+
+    <div fly>There was an old lady who swallowed a fly;</div>
+    <css-observe id=observer1 observe selector=[fly] clone>
+        <template id=why>
+            <div mark why1>I don't know why she swallowed a fly - perhaps she'll die</div>
+        </template>
+    </css-observe>
+
+
+    <css-observe observe selector=[why1] clone>
+        <template id=spider>
+            <div mark spider>There was an old lady who swallowed a spider;</div>
+        </template>
+    </css-observe>
+
 
     <!-- Use experimental import maps -->
     <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
