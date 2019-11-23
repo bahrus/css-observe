@@ -59,10 +59,13 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
     }
 
     onPropsChange(){
-        if(this._connected && !this.id){
-            console.warn('id required for ' + this.localName);
+        // if(this._connected && !this.id){
+        //     console.warn('id required for ' + this.localName);
+        // }
+        if(this._disabled || !this._connected || !this._observe) return;
+        if(this.id === '') {
+            this.id = CssObserve.is + (new Date()).valueOf();
         }
-        if(this._disabled || !this._connected || !this._observe || !this.id) return;
         this.addCSSListener(this.id, this._selector, this.insertListener);
     }
 
