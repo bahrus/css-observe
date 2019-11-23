@@ -3,7 +3,7 @@
   "tags": [
     {
       "name": "css-observe",
-      "jsDoc": "/**\n * @element css-observe\n */",
+      "jsDoc": "/**\n * @element css-observe\n * @event latest-match-changed - fires when css match is found.\n */",
       "attributes": [
         {
           "name": "selector",
@@ -16,6 +16,12 @@
           "description": "This attribute/property must be present/true for anything to happen.",
           "jsDoc": "/**\n     * This attribute/property must be present/true for anything to happen.\n     * @attr\n     */",
           "type": "any"
+        },
+        {
+          "name": "clone",
+          "description": "Clone template inside when css match is found.",
+          "jsDoc": "/**\n     * Clone template inside when css match is found.\n     * @attr\n     */",
+          "type": "boolean"
         }
       ],
       "properties": [
@@ -54,12 +60,24 @@
           "type": "any"
         },
         {
+          "name": "clone",
+          "description": "Clone template inside when css match is found.",
+          "jsDoc": "/**\n     * Clone template inside when css match is found.\n     * @attr\n     */",
+          "type": "boolean"
+        },
+        {
           "name": "latestMatch",
           "type": "any"
         }
       ],
-      "events": [],
-      "slots": []
+      "events": [
+        {
+          "name": "latest-match-changed",
+          "description": "fires when css match is found."
+        }
+      ],
+      "slots": [],
+      "cssProperties": []
     }
   ]
 }

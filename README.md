@@ -7,29 +7,22 @@
 <img src="https://badgen.net/bundlephobia/minzip/css-observe">
 
 # css-observe
-Fire a custom event whenever an element matching a specified selector is added to the (shadow dom) realm in which the instance is added.
+Fire a custom event whenever an element matching a specified selector is added to the (shadow dom) realm in which the instance is added.  Optionally, clone a template inside.
 
-## Syntax
+## [Syntax](https://bahrus.github.io/wc-info/syntax.html?npmPackage=css-observe)
 
-<!--
-```
-<custom-element-demo>
-<template>
-    <div>
-        <wc-info package-name="npm install css-observe" href="https://unpkg.com/css-observe@0.0.11/custom-elements.json"></wc-info>
-        <script type="module" src="https://unpkg.com/wc-info@0.0.68/wc-info.js?module"></script>
-    </div>
-</template>
-</custom-element-demo>
-```
--->
 
 
 ```html
-<script type="module" src="../css-observe.js"></script>
-<css-observe id="myObserver" observe selector="div[test]"></css-observe>
-<div test>
-    I am here
+<script type="module" src="https://cdn.pika.dev/css-observe"></script>
+<div>
+    <script type="module" src="https://cdn.pika.dev/css-observe"></script>
+    <css-observe observe selector="div[test]" clone>
+        <template>Found it</template>
+    </css-observe>
+    <div test>
+        I am here
+    </div>
 </div>
 ```
 

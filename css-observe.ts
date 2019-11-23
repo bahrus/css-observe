@@ -8,6 +8,7 @@ const observe = 'observe';
 const clone = 'clone';
 /**
  * @element css-observe
+ * @event latest-match-changed - Fires when css match is found.
  */
 export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))){
     static get is(){return 'css-observe';}
@@ -49,6 +50,10 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
     get clone(){
         return this._clone;
     }
+    /**
+     * Clone template inside when css match is found.
+     * @attr
+     */
     set clone(nv){
         this.attr(clone, nv, '');
     }
