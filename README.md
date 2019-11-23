@@ -2,6 +2,8 @@
 
 <a href="https://nodei.co/npm/css-observe/"><img src="https://nodei.co/npm/css-observe.png"></a>
 
+[![Actions Status](https://github.com/bahrus/css-observe/workflows/CI/badge.svg)](https://github.com/bahrus/css-observe/actions?query=workflow%3ACI)
+
 <img src="https://badgen.net/bundlephobia/minzip/css-observe">
 
 # css-observe

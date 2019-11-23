@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <div fly>There was an old lady who swallowed a fly;</div>
+    <css-observe id=observer1 observe selector=[fly] clone>
+        <template id=why>
+            <div mark why1>I don't know why she swallowed a fly - perhaps she'll die</div>
+        </template>
+    </css-observe>
+
+
+    <css-observe observe selector=[why1] clone>
+        <template id=spider>
+            <div mark spider>There was an old lady who swallowed a spider;</div>
+        </template>
+    </css-observe>
+
+
+    <!-- Use experimental import maps -->
+    <script defer src="../node_modules/es-module-shims/dist/es-module-shims.js"></script>
+    <script type="importmap-shim">
+        {
+          "imports": {
+            "xtal-element/": "../node_modules/xtal-element/",
+            "trans-render/": "../node_modules/trans-render/"
+          }
+        }
+        </script>
+        <script  type="module-shim">
+            import '../css-observe.js';
+        </script>
+</body>
+</html>

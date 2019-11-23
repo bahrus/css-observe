@@ -5,13 +5,14 @@ import {observeCssSelector} from 'xtal-element/observeCssSelector.js';
 
 const selector = 'selector';
 const observe = 'observe';
+const clone = 'clone';
 /**
  * @element css-observe
  */
 export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))){
     static get is(){return 'css-observe';}
     static get observedAttributes(){
-        return super.observedAttributes.concat([observe, selector]);
+        return super.observedAttributes.concat([observe, selector, clone]);
     }
     _connected!: boolean;
     connectedCallback(){
@@ -44,6 +45,14 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         this.attr(observe, val, '');
     }
 
+    _clone = false;
+    get clone(){
+        return this._clone;
+    }
+    set clone(nv){
+        this.attr(clone, nv, '');
+    }
+
     attributeChangedCallback(name: string, oldVal: string, newVal: string){
         super.attributeChangedCallback(name, oldVal, newVal);
         const fldName = '_' + name;
@@ -51,6 +60,7 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
             case selector:
                 (<any>this)[fldName] = newVal;
                 break;
+            case clone:
             case observe:
                 (<any>this)[fldName] = newVal !== null;
                 break;
@@ -59,10 +69,13 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
     }
 
     onPropsChange(){
-        if(this._connected && !this.id){
-            console.warn('id required for ' + this.localName);
+        // if(this._connected && !this.id){
+        //     console.warn('id required for ' + this.localName);
+        // }
+        if(this._disabled || !this._connected || !this._observe) return;
+        if(this.id === '') {
+            this.id = CssObserve.is + (new Date()).valueOf();
         }
-        if(this._disabled || !this._connected || !this._observe || !this.id) return;
         this.addCSSListener(this.id, this._selector, this.insertListener);
     }
 
@@ -75,6 +88,13 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         this.de('latest-match', {
             value: val,
         });
+        if(this._clone){
+            const templ = this.querySelector('template');
+            const parent = this.parentElement;
+            if(templ !== null && parent !== null){
+                parent.appendChild(templ.content.cloneNode(true));
+            }
+        }
     }
     insertListener(e: any){
         if (e.animationName === this.id) {

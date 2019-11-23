@@ -4,13 +4,18 @@ import { XtallatX } from 'xtal-element/xtal-latx.js';
 import { observeCssSelector } from 'xtal-element/observeCssSelector.js';
 const selector = 'selector';
 const observe = 'observe';
+const clone = 'clone';
 /**
  * @element css-observe
  */
 export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) {
+    constructor() {
+        super(...arguments);
+        this._clone = false;
+    }
     static get is() { return 'css-observe'; }
     static get observedAttributes() {
-        return super.observedAttributes.concat([observe, selector]);
+        return super.observedAttributes.concat([observe, selector, clone]);
     }
     connectedCallback() {
         this.style.display = 'none';
@@ -38,6 +43,12 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
     set observe(val) {
         this.attr(observe, val, '');
     }
+    get clone() {
+        return this._clone;
+    }
+    set clone(nv) {
+        this.attr(clone, nv, '');
+    }
     attributeChangedCallback(name, oldVal, newVal) {
         super.attributeChangedCallback(name, oldVal, newVal);
         const fldName = '_' + name;
@@ -45,6 +56,7 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
             case selector:
                 this[fldName] = newVal;
                 break;
+            case clone:
             case observe:
                 this[fldName] = newVal !== null;
                 break;
@@ -52,11 +64,14 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         this.onPropsChange();
     }
     onPropsChange() {
-        if (this._connected && !this.id) {
-            console.warn('id required for ' + this.localName);
-        }
-        if (this._disabled || !this._connected || !this._observe || !this.id)
+        // if(this._connected && !this.id){
+        //     console.warn('id required for ' + this.localName);
+        // }
+        if (this._disabled || !this._connected || !this._observe)
             return;
+        if (this.id === '') {
+            this.id = CssObserve.is + (new Date()).valueOf();
+        }
         this.addCSSListener(this.id, this._selector, this.insertListener);
     }
     get latestMatch() {
@@ -67,6 +82,13 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         this.de('latest-match', {
             value: val,
         });
+        if (this._clone) {
+            const templ = this.querySelector('template');
+            const parent = this.parentElement;
+            if (templ !== null && parent !== null) {
+                parent.appendChild(templ.content.cloneNode(true));
+            }
+        }
     }
     insertListener(e) {
         if (e.animationName === this.id) {
