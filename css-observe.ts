@@ -6,6 +6,7 @@ import {observeCssSelector} from 'xtal-element/observeCssSelector.js';
 const selector = 'selector';
 const observe = 'observe';
 const clone = 'clone';
+
 /**
  * @element css-observe
  * @event latest-match-changed - Fires when css match is found.
