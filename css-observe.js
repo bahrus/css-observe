@@ -5,6 +5,7 @@ import { observeCssSelector } from 'xtal-element/observeCssSelector.js';
 const selector = 'selector';
 const observe = 'observe';
 const clone = 'clone';
+const custom_styles = 'custom-styles';
 /**
  * @element css-observe
  * @event latest-match-changed - Fires when css match is found.
@@ -13,14 +14,15 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
     constructor() {
         super(...arguments);
         this._clone = false;
+        this._customStyles = '';
     }
     static get is() { return 'css-observe'; }
     static get observedAttributes() {
-        return super.observedAttributes.concat([observe, selector, clone]);
+        return super.observedAttributes.concat([observe, selector, clone, custom_styles]);
     }
     connectedCallback() {
         this.style.display = 'none';
-        this.propUp([selector, observe]);
+        this.propUp([selector, observe, 'customStyles']);
         this._connected = true;
         this.onPropsChange();
     }
@@ -54,6 +56,12 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
     set clone(nv) {
         this.attr(clone, nv, '');
     }
+    get customStyles() {
+        return this._customStyles;
+    }
+    set customStyles(nv) {
+        this.attr(custom_styles, nv);
+    }
     attributeChangedCallback(name, oldVal, newVal) {
         super.attributeChangedCallback(name, oldVal, newVal);
         const fldName = '_' + name;
@@ -65,6 +73,8 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
             case observe:
                 this[fldName] = newVal !== null;
                 break;
+            case custom_styles:
+                this._customStyles = newVal;
         }
         this.onPropsChange();
     }
