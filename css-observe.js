@@ -87,7 +87,7 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         if (this.id === '') {
             this.id = CssObserve.is + (new Date()).valueOf();
         }
-        this.addCSSListener(this.id, this._selector, this.insertListener);
+        this.addCSSListener(this.id, this._selector, this.insertListener, this._customStyles);
     }
     get latestMatch() {
         return this._latestMatch;
