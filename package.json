@@ -11,7 +11,7 @@
     "doc": "wca analyze css-observe.js --outFile custom-elements.json"
   },
   "dependencies": {
-    "xtal-element": "0.0.94",
+    "xtal-element": "0.0.96",
     "trans-render": "0.0.141"
   },
   "devDependencies": {
