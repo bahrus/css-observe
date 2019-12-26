@@ -77,9 +77,6 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         this.onPropsChange();
     }
     onPropsChange() {
-        // if(this._connected && !this.id){
-        //     console.warn('id required for ' + this.localName);
-        // }
         if (this._disabled || !this._connected || !this._observe)
             return;
         if (this.id === '') {
