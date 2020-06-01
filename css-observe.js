@@ -1,112 +1,59 @@
-import { define } from 'trans-render/define.js';
 import { hydrate } from 'trans-render/hydrate.js';
-import { XtallatX } from 'xtal-element/xtal-latx.js';
+import { XtallatX, define } from 'xtal-element/xtal-latx.js';
 import { observeCssSelector } from 'xtal-element/observeCssSelector.js';
-const selector = 'selector';
-const observe = 'observe';
-const clone = 'clone';
-//const custom_styles = 'custom-styles';
 /**
  * @element css-observe
  * @event latest-match-changed - Fires when css match is found.
  */
-export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) {
-    constructor() {
-        super(...arguments);
-        this._clone = false;
-        this._customStyles = '';
-    }
-    static get is() { return 'css-observe'; }
-    static get observedAttributes() {
-        return super.observedAttributes.concat([observe, selector, clone]);
-    }
-    connectedCallback() {
-        this.style.display = 'none';
-        this.propUp([selector, observe, 'customStyles']);
-        this._connected = true;
-        this.onPropsChange();
-    }
-    get selector() {
-        return this._selector;
-    }
-    /**
-     * CSS selector to monitor for.
-     * @attr
-     */
-    set selector(val) {
-        this.attr(selector, val);
-    }
-    get observe() {
-        return this._observe;
-    }
-    /**
-     * This attribute/property must be present/true for anything to happen.
-     * @attr
-     */
-    set observe(val) {
-        this.attr(observe, val, '');
-    }
-    get clone() {
-        return this._clone;
-    }
-    /**
-     * Clone template inside when css match is found.
-     * @attr
-     */
-    set clone(nv) {
-        this.attr(clone, nv, '');
-    }
-    get customStyles() {
-        return this._customStyles;
-    }
-    set customStyles(nv) {
-        this._customStyles = nv;
-    }
-    attributeChangedCallback(name, oldVal, newVal) {
-        super.attributeChangedCallback(name, oldVal, newVal);
-        const fldName = '_' + name;
-        switch (name) {
-            case selector:
-                this[fldName] = newVal;
-                break;
-            case clone:
-            case observe:
-                this[fldName] = newVal !== null;
-                break;
+let CssObserve = /** @class */ (() => {
+    class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) {
+        constructor() {
+            super(...arguments);
+            this.customStyles = '';
+            this.propActions = CssObserve.propActions;
         }
-        this.onPropsChange();
-    }
-    onPropsChange() {
-        if (this._disabled || !this._connected || !this._observe)
-            return;
-        if (this.id === '') {
-            this.id = CssObserve.is + (new Date()).valueOf();
+        connectedCallback() {
+            this.style.display = 'none';
+            super.connectedCallback();
         }
-        this.addCSSListener(this.id, this._selector, this.insertListener, this._customStyles);
-    }
-    get latestMatch() {
-        return this._latestMatch;
-    }
-    set latestMatch(val) {
-        this._latestMatch = val;
-        this.de('latest-match', {
-            value: val,
-        });
-        if (this._clone) {
-            const templ = this.querySelector('template');
-            const parent = this.parentElement;
-            if (templ !== null && parent !== null) {
-                parent.appendChild(templ.content.cloneNode(true));
+        insertListener(e) {
+            if (e.animationName === this.id) {
+                const target = e.target;
+                setTimeout(() => {
+                    this.latestMatch = target;
+                }, 0);
             }
         }
     }
-    insertListener(e) {
-        if (e.animationName === this.id) {
-            const target = e.target;
-            setTimeout(() => {
-                this.latestMatch = target;
-            }, 0);
+    CssObserve.is = 'css-observe';
+    CssObserve.attributeProps = ({ observe, selector, clone, disabled, customStyles, latestMatch }) => ({
+        bool: [observe, disabled, clone],
+        obj: [latestMatch],
+        notify: [latestMatch],
+        str: [selector, customStyles],
+        reflect: [observe, disabled, clone, selector]
+    });
+    CssObserve.propActions = [
+        ({ disabled, observe, selector, self, customStyles }) => {
+            self.disconnect();
+            if (disabled || !observe || !self.isConnected || selector === undefined)
+                return;
+            if (self.id === '') {
+                self.id = CssObserve.is + (new Date()).valueOf();
+            }
+            self.addCSSListener(self.id, selector, self.insertListener, customStyles);
+        },
+        ({ latestMatch, self }) => {
+            if (self.clone) {
+                const templ = self.querySelector('template');
+                const parent = self.parentElement;
+                if (templ !== null && parent !== null) {
+                    parent.appendChild(templ.content.cloneNode(true));
+                }
+            }
         }
-    }
-}
+    ];
+    return CssObserve;
+})();
+export { CssObserve };
 define(CssObserve);
