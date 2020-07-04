@@ -1,6 +1,25 @@
 import { hydrate } from 'trans-render/hydrate.js';
 import { XtallatX, define } from 'xtal-element/xtal-latx.js';
 import { observeCssSelector } from 'xtal-element/observeCssSelector.js';
+const linkInsertListener = ({ disabled, observe, selector, self, customStyles }) => {
+    self.disconnect();
+    if (disabled || !observe || !self.isConnected || selector === undefined)
+        return;
+    if (self.id === '') {
+        self.id = CssObserve.is + (new Date()).valueOf();
+    }
+    self.addCSSListener(self.id, selector, self.insertListener, customStyles);
+};
+const linkClonedTemplate = ({ disabled, clone, latestMatch, sym, self }) => {
+    if (disabled || !clone)
+        return;
+    const templ = self.querySelector('template');
+    const parent = self.parentElement;
+    if (parent !== null && (!parent[sym]) && templ !== null) {
+        parent.appendChild(templ.content.cloneNode(true));
+        parent[sym] = true;
+    }
+};
 /**
  * @element css-observe
  * @event latest-match-changed - Fires when css match is found.
@@ -9,8 +28,12 @@ let CssObserve = /** @class */ (() => {
     class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) {
         constructor() {
             super(...arguments);
+            this.sym = Symbol();
             this.customStyles = '';
-            this.propActions = CssObserve.propActions;
+            this.propActions = [
+                linkInsertListener,
+                linkClonedTemplate
+            ];
         }
         connectedCallback() {
             this.style.display = 'none';
@@ -33,26 +56,6 @@ let CssObserve = /** @class */ (() => {
         str: [selector, customStyles],
         reflect: [observe, disabled, clone, selector]
     });
-    CssObserve.propActions = [
-        ({ disabled, observe, selector, self, customStyles }) => {
-            self.disconnect();
-            if (disabled || !observe || !self.isConnected || selector === undefined)
-                return;
-            if (self.id === '') {
-                self.id = CssObserve.is + (new Date()).valueOf();
-            }
-            self.addCSSListener(self.id, selector, self.insertListener, customStyles);
-        },
-        ({ latestMatch, self }) => {
-            if (self.clone) {
-                const templ = self.querySelector('template');
-                const parent = self.parentElement;
-                if (templ !== null && parent !== null) {
-                    parent.appendChild(templ.content.cloneNode(true));
-                }
-            }
-        }
-    ];
     return CssObserve;
 })();
 export { CssObserve };

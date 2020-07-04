@@ -3,6 +3,24 @@ import {XtallatX, define} from 'xtal-element/xtal-latx.js';
 import {observeCssSelector} from 'xtal-element/observeCssSelector.js';
 import {AttributeProps} from 'xtal-element/types.d.js';
 
+const linkInsertListener = ({disabled, observe, selector, self, customStyles}: CssObserve) =>{
+    self.disconnect();
+    if(disabled || !observe || !self.isConnected || selector === undefined) return;
+    if(self.id === ''){
+        self.id = CssObserve.is + (new Date()).valueOf();
+    }
+    self.addCSSListener(self.id, selector, self.insertListener, customStyles);
+}
+const linkClonedTemplate = ({disabled, clone, latestMatch, sym, self}: CssObserve) =>{
+    if(disabled || !clone) return;
+    const templ = self.querySelector('template');
+    const parent = self.parentElement;
+    if(parent !== null && (!(<any>parent)[sym]) && templ !== null) {
+        parent.appendChild(templ.content.cloneNode(true));
+        (<any>parent)[sym] = true;
+    }
+}
+
 /**
  * @element css-observe
  * @event latest-match-changed - Fires when css match is found.
@@ -17,25 +35,7 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         reflect: [observe, disabled, clone, selector]
     } as AttributeProps);
 
-    static  propActions = [
-        ({disabled, observe, selector, self, customStyles}: CssObserve) =>{
-            self.disconnect();
-            if(disabled || !observe || !self.isConnected || selector === undefined) return;
-            if(self.id === ''){
-                self.id = CssObserve.is + (new Date()).valueOf();
-            }
-            self.addCSSListener(self.id, selector, self.insertListener, customStyles);
-        },
-        ({latestMatch, self}: CssObserve) =>{
-            if(self.clone){
-                const templ = self.querySelector('template');
-                const parent = self.parentElement;
-                if(templ !== null && parent !== null){
-                    parent.appendChild(templ.content.cloneNode(true));
-                }
-            }
-        }
-    ]
+    sym = Symbol();
 
     connectedCallback(){
         this.style.display='none';
@@ -62,7 +62,10 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
 
     customStyles = '';
 
-    propActions = CssObserve.propActions;
+    propActions = [
+        linkInsertListener,
+        linkClonedTemplate
+    ]
 
 
     latestMatch!: Element;
