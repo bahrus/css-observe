@@ -10,8 +10,31 @@ const linkInsertListener = ({ disabled, observe, selector, self, customStyles })
     }
     self.addCSSListener(self.id, selector, self.insertListener, customStyles);
 };
+const linkClosestContainer = ({ withinClosest, self }) => {
+    if (withinClosest === undefined) {
+        delete self.closestContainer;
+    }
+    else {
+        self.closestContainer = self.closest(withinClosest);
+        if (self.closestContainer === null) {
+            console.warn("Could not locate closest container.");
+        }
+    }
+};
+const linkLatestMatch = ({ latestOuterMatch, closestContainer, self }) => {
+    if (latestOuterMatch === undefined)
+        return;
+    if (closestContainer === null || closestContainer === undefined) {
+        self.latestMatch = latestOuterMatch;
+    }
+    else {
+        if (closestContainer.contains(latestOuterMatch)) {
+            self.latestMatch = latestOuterMatch;
+        }
+    }
+};
 const linkClonedTemplate = ({ disabled, clone, latestMatch, sym, self }) => {
-    if (disabled || !clone)
+    if (disabled || !clone || !latestMatch)
         return;
     const templ = self.querySelector('template');
     const parent = self.parentElement;
@@ -29,9 +52,14 @@ let CssObserve = /** @class */ (() => {
         constructor() {
             super(...arguments);
             this.sym = Symbol();
+            /**
+             *
+             */
             this.customStyles = '';
             this.propActions = [
                 linkInsertListener,
+                linkClosestContainer,
+                linkLatestMatch,
                 linkClonedTemplate
             ];
         }
@@ -43,17 +71,17 @@ let CssObserve = /** @class */ (() => {
             if (e.animationName === this.id) {
                 const target = e.target;
                 setTimeout(() => {
-                    this.latestMatch = target;
+                    this.latestOuterMatch = target;
                 }, 0);
             }
         }
     }
     CssObserve.is = 'css-observe';
-    CssObserve.attributeProps = ({ observe, selector, clone, disabled, customStyles, latestMatch }) => ({
+    CssObserve.attributeProps = ({ observe, selector, clone, disabled, customStyles, latestOuterMatch, latestMatch, withinClosest }) => ({
         bool: [observe, disabled, clone],
-        obj: [latestMatch],
+        obj: [latestOuterMatch, latestMatch],
         notify: [latestMatch],
-        str: [selector, customStyles],
+        str: [selector, customStyles, withinClosest],
         reflect: [observe, disabled, clone, selector]
     });
     return CssObserve;

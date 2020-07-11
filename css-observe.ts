@@ -11,8 +11,28 @@ const linkInsertListener = ({disabled, observe, selector, self, customStyles}: C
     }
     self.addCSSListener(self.id, selector, self.insertListener, customStyles);
 }
+const linkClosestContainer = ({withinClosest, self}: CssObserve) =>{
+    if(withinClosest === undefined){
+        delete self.closestContainer;
+    }else{
+        self.closestContainer = self.closest(withinClosest);
+        if(self.closestContainer === null){
+            console.warn("Could not locate closest container.");
+        }
+    }
+}
+const linkLatestMatch = ({latestOuterMatch, closestContainer, self}: CssObserve) => {
+    if(latestOuterMatch === undefined) return;
+    if(closestContainer === null || closestContainer === undefined) {
+        self.latestMatch = latestOuterMatch;
+    }else{
+        if(closestContainer.contains(latestOuterMatch)){
+            self.latestMatch = latestOuterMatch;
+        }
+    }
+}
 const linkClonedTemplate = ({disabled, clone, latestMatch, sym, self}: CssObserve) =>{
-    if(disabled || !clone) return;
+    if(disabled || !clone || !latestMatch) return;
     const templ = self.querySelector('template');
     const parent = self.parentElement;
     if(parent !== null && (!(<any>parent)[sym]) && templ !== null) {
@@ -27,11 +47,11 @@ const linkClonedTemplate = ({disabled, clone, latestMatch, sym, self}: CssObserv
  */
 export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))){
     static is = 'css-observe';
-    static attributeProps = ({observe, selector, clone, disabled, customStyles, latestMatch}: CssObserve) =>({
+    static attributeProps = ({observe, selector, clone, disabled, customStyles, latestOuterMatch, latestMatch, withinClosest}: CssObserve) =>({
         bool: [observe, disabled, clone],
-        obj: [latestMatch],
+        obj: [latestOuterMatch, latestMatch],
         notify: [latestMatch],
-        str: [selector, customStyles],
+        str: [selector, customStyles, withinClosest],
         reflect: [observe, disabled, clone, selector]
     } as AttributeProps);
 
@@ -60,21 +80,38 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
      */
     clone!:  boolean;
 
+    /**
+     * 
+     */
     customStyles = '';
 
     propActions = [
         linkInsertListener,
+        linkClosestContainer,
+        linkLatestMatch,
         linkClonedTemplate
     ]
 
+    latestOuterMatch: Element | undefined;
 
-    latestMatch!: Element;
+    /**
+     * Latest Element matching css selector (and within the element specified by within-closest)
+     */
+    latestMatch: Element | undefined;
+
+    /**
+     * Matching elements must fall within the closest ancestor matching this css expression.
+     * @attr
+     */
+    withinClosest:  string | undefined;
+
+    closestContainer: Element | undefined | null;
 
     insertListener(e: any){
         if (e.animationName === this.id) {
             const target = e.target;
             setTimeout(() =>{
-                this.latestMatch = target;
+                this.latestOuterMatch = target;
             }, 0)
             
         }

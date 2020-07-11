@@ -26,6 +26,8 @@ Fire a custom event whenever an element matching a specified selector is added t
 </div>
 ```
 
+Another attribute / property, within-closest/withinClosest, restricts matches to those within the closest ancestory of the css-observe element matching the within-closest value.
+
 css-observe will fire event: latest-match-changed, and the newly added element can be obtained from event.detail.value.
 
 It will only observe the selector within the same Shadow DOM realm where the element is placed.  If the element is placed outside any ShadowDOM, it will observe the selector only outside any ShadowDOM.  How cool is that?
