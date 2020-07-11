@@ -1,83 +1,48 @@
 {
-  "version": 2,
+  "version": "experimental",
   "tags": [
     {
       "name": "css-observe",
-      "jsDoc": "/**\n * @element css-observe\n * @event latest-match-changed - fires when css match is found.\n */",
+      "path": "./css-observe.js",
       "attributes": [
         {
-          "name": "selector",
-          "description": "CSS selector to monitor for.",
-          "jsDoc": "/**\n     * CSS selector to monitor for.\n     * @attr\n     */",
-          "type": "any"
-        },
-        {
-          "name": "observe",
-          "description": "This attribute/property must be present/true for anything to happen.",
-          "jsDoc": "/**\n     * This attribute/property must be present/true for anything to happen.\n     * @attr\n     */",
-          "type": "any"
-        },
-        {
-          "name": "clone",
-          "description": "Clone template inside when css match is found.",
-          "jsDoc": "/**\n     * Clone template inside when css match is found.\n     * @attr\n     */",
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
         }
       ],
       "properties": [
         {
-          "name": "val",
-          "type": "\"set\" | \"remove\""
+          "name": "sym"
+        },
+        {
+          "name": "customStyles",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "self",
+          "type": "this",
+          "default": "\"this\""
+        },
+        {
+          "name": "propActions",
+          "type": "(any | any | any | any)[]",
+          "default": "[\"linkInsertListener\",\"linkClosestContainer\",\"linkLatestMatch\",\"linkClonedTemplate\"]"
         },
         {
           "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
-        },
-        {
-          "name": "evCount",
-          "description": "Tracks how many times each event type was called.",
-          "jsDoc": "/**\r\n         * Tracks how many times each event type was called.\r\n         */",
-          "type": "{ [key: string]: number; }"
-        },
-        {
-          "name": "asIs",
-          "type": "\"\" | \"-changed\""
-        },
-        {
-          "name": "host",
-          "type": "any"
-        },
-        {
-          "name": "selector",
-          "description": "CSS selector to monitor for.",
-          "jsDoc": "/**\n     * CSS selector to monitor for.\n     * @attr\n     */",
-          "type": "any"
-        },
-        {
-          "name": "observe",
-          "description": "This attribute/property must be present/true for anything to happen.",
-          "jsDoc": "/**\n     * This attribute/property must be present/true for anything to happen.\n     * @attr\n     */",
-          "type": "any"
-        },
-        {
-          "name": "clone",
-          "description": "Clone template inside when css match is found.",
-          "jsDoc": "/**\n     * Clone template inside when css match is found.\n     * @attr\n     */",
-          "type": "boolean"
-        },
-        {
-          "name": "latestMatch",
-          "type": "any"
         }
       ],
       "events": [
         {
           "name": "latest-match-changed",
-          "description": "fires when css match is found."
+          "description": "Fires when css match is found."
         }
-      ],
-      "slots": [],
-      "cssProperties": []
+      ]
     }
   ]
 }

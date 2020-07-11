@@ -47,44 +47,40 @@ const linkClonedTemplate = ({ disabled, clone, latestMatch, sym, self }) => {
  * @element css-observe
  * @event latest-match-changed - Fires when css match is found.
  */
-let CssObserve = /** @class */ (() => {
-    class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) {
-        constructor() {
-            super(...arguments);
-            this.sym = Symbol();
-            /**
-             *
-             */
-            this.customStyles = '';
-            this.propActions = [
-                linkInsertListener,
-                linkClosestContainer,
-                linkLatestMatch,
-                linkClonedTemplate
-            ];
-        }
-        connectedCallback() {
-            this.style.display = 'none';
-            super.connectedCallback();
-        }
-        insertListener(e) {
-            if (e.animationName === this.id) {
-                const target = e.target;
-                setTimeout(() => {
-                    this.latestOuterMatch = target;
-                }, 0);
-            }
+export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) {
+    constructor() {
+        super(...arguments);
+        this.sym = Symbol();
+        /**
+         *
+         */
+        this.customStyles = '';
+        this.propActions = [
+            linkInsertListener,
+            linkClosestContainer,
+            linkLatestMatch,
+            linkClonedTemplate
+        ];
+    }
+    connectedCallback() {
+        this.style.display = 'none';
+        super.connectedCallback();
+    }
+    insertListener(e) {
+        if (e.animationName === this.id) {
+            const target = e.target;
+            setTimeout(() => {
+                this.latestOuterMatch = target;
+            }, 0);
         }
     }
-    CssObserve.is = 'css-observe';
-    CssObserve.attributeProps = ({ observe, selector, clone, disabled, customStyles, latestOuterMatch, latestMatch, withinClosest }) => ({
-        bool: [observe, disabled, clone],
-        obj: [latestOuterMatch, latestMatch],
-        notify: [latestMatch],
-        str: [selector, customStyles, withinClosest],
-        reflect: [observe, disabled, clone, selector]
-    });
-    return CssObserve;
-})();
-export { CssObserve };
+}
+CssObserve.is = 'css-observe';
+CssObserve.attributeProps = ({ observe, selector, clone, disabled, customStyles, latestOuterMatch, latestMatch, withinClosest }) => ({
+    bool: [observe, disabled, clone],
+    obj: [latestOuterMatch, latestMatch],
+    notify: [latestMatch],
+    str: [selector, customStyles, withinClosest],
+    reflect: [observe, disabled, clone, selector]
+});
 define(CssObserve);
