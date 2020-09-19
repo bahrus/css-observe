@@ -2,6 +2,8 @@ import {hydrate} from 'trans-render/hydrate.js';
 import {XtallatX, define} from 'xtal-element/xtal-latx.js';
 import {observeCssSelector} from 'xtal-element/observeCssSelector.js';
 import {AttributeProps} from 'xtal-element/types.d.js';
+import {ICssObserve} from './types.d.js';
+export {ICssObserve as ICSSObserve} from './types.d.js';
 
 const linkInsertListener = ({disabled, observe, selector, self, customStyles}: CssObserve) =>{
     self.disconnect();
@@ -45,7 +47,7 @@ const linkClonedTemplate = ({disabled, clone, latestMatch, sym, self}: CssObserv
  * @element css-observe
  * @event latest-match-changed - Fires when css match is found.
  */
-export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))){
+export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) implements ICssObserve{
     static is = 'css-observe';
     static attributeProps = ({observe, selector, clone, disabled, customStyles, latestOuterMatch, latestMatch, withinClosest}: CssObserve) =>({
         bool: [observe, disabled, clone],
