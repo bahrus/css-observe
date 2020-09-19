@@ -55,6 +55,10 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         reflect: [observe, disabled, clone, selector]
     } as AttributeProps);
 
+    /**
+     * @private
+     * Needs to be unique symbol per instance
+     */
     sym = Symbol();
 
     connectedCallback(){
@@ -81,10 +85,13 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
     clone!:  boolean;
 
     /**
-     * 
+     * Insert some associated needed styles.
      */
     customStyles = '';
 
+    /**
+     * @private
+     */
     propActions = [
         linkInsertListener,
         linkClosestContainer,
@@ -92,6 +99,9 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         linkClonedTemplate
     ]
 
+    /**
+     * @private
+     */
     latestOuterMatch: Element | undefined;
 
     /**
@@ -105,13 +115,16 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
      */
     withinClosest:  string | undefined;
 
+    /**
+     * @private
+     */
     closestContainer: Element | undefined | null;
 
-    insertListener(e: any){
+    insertListener(e: AnimationEvent){
         if (e.animationName === this.id) {
             const target = e.target;
             setTimeout(() =>{
-                this.latestOuterMatch = target;
+                this.latestOuterMatch = target as Element;
             }, 0)
             
         }

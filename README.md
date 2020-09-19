@@ -9,8 +9,7 @@
 # css-observe
 Fire a custom event whenever an element matching a specified selector is added to the (shadow dom) realm in which the instance is added.  Optionally, clone a template inside.
 
-## [Syntax](https://bahrus.github.io/wc-info/syntax.html?npmPackage=css-observe)
-
+## [Syntax](https://bahrus.github.io/api-viewer/index.html?npmPackage=css-observe&jsonPath=custom-elements.json)
 
 
 ```html

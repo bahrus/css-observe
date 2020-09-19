@@ -50,11 +50,18 @@ const linkClonedTemplate = ({ disabled, clone, latestMatch, sym, self }) => {
 export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) {
     constructor() {
         super(...arguments);
+        /**
+         * @private
+         * Needs to be unique symbol per instance
+         */
         this.sym = Symbol();
         /**
-         *
+         * Insert some associated needed styles.
          */
         this.customStyles = '';
+        /**
+         * @private
+         */
         this.propActions = [
             linkInsertListener,
             linkClosestContainer,

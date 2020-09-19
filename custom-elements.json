@@ -13,22 +13,10 @@
       ],
       "properties": [
         {
-          "name": "sym"
-        },
-        {
           "name": "customStyles",
+          "description": "Insert some associated needed styles.",
           "type": "string",
           "default": "\"\""
-        },
-        {
-          "name": "self",
-          "type": "this",
-          "default": "\"this\""
-        },
-        {
-          "name": "propActions",
-          "type": "(any | any | any | any)[]",
-          "default": "[\"linkInsertListener\",\"linkClosestContainer\",\"linkLatestMatch\",\"linkClonedTemplate\"]"
         },
         {
           "name": "disabled",

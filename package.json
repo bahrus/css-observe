@@ -11,13 +11,14 @@
     "doc": "wca analyze css-observe.js --outFile custom-elements.json"
   },
   "dependencies": {
-    "xtal-element": "0.0.283",
-    "trans-render": "0.0.255"
+    "xtal-element": "0.0.298",
+    "trans-render": "0.0.259"
   },
   "devDependencies": {
-    "@webcomponents/webcomponentsjs": "2.4.3",
-    "xtal-test": "0.0.46",
-    "es-module-shims": "0.4.7"
+    "@webcomponents/webcomponentsjs": "2.4.4",
+    "xtal-test": "0.0.48",
+    "es-module-shims": "0.6.0",
+    "p-et-alia": "0.0.115"
   },
   "repository": {
     "type": "git",
