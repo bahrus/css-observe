@@ -82,7 +82,14 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
         }
     }
 }
+/**
+ * @private
+ */
 CssObserve.is = 'css-observe';
+/**
+ *
+ * @private
+ */
 CssObserve.attributeProps = ({ observe, selector, clone, disabled, customStyles, latestOuterMatch, latestMatch, withinClosest }) => ({
     bool: [observe, disabled, clone],
     obj: [latestOuterMatch, latestMatch],

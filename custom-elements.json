@@ -3,8 +3,32 @@
   "tags": [
     {
       "name": "css-observe",
-      "path": "./css-observe.js",
+      "path": "./css-observe-example0.js",
       "attributes": [
+        {
+          "name": "selector",
+          "description": "CSS selector to monitor for.",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "observe",
+          "description": "This attribute/property must be present/true for anything to happen.",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "clone",
+          "description": "Clone template inside when css match is found.",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "withinClosest",
+          "description": "Matching elements must fall within the closest ancestor matching this css expression.",
+          "type": "string",
+          "default": "\"\""
+        },
         {
           "name": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
@@ -13,10 +37,43 @@
       ],
       "properties": [
         {
+          "name": "selector",
+          "attribute": "selector",
+          "description": "CSS selector to monitor for.",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "observe",
+          "attribute": "observe",
+          "description": "This attribute/property must be present/true for anything to happen.",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "clone",
+          "attribute": "clone",
+          "description": "Clone template inside when css match is found.",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
           "name": "customStyles",
           "description": "Insert some associated needed styles.",
           "type": "string",
           "default": "\"\""
+        },
+        {
+          "name": "withinClosest",
+          "attribute": "withinClosest",
+          "description": "Matching elements must fall within the closest ancestor matching this css expression.",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "latestMatch",
+          "description": "Latest Element matching css selector (and within the element specified by within-closest)",
+          "type": "Element | undefined"
         },
         {
           "name": "disabled",

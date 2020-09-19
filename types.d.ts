@@ -1,7 +1,10 @@
+import {IHydrate} from 'trans-render/types.d.js';
 /**
- * @element css-observe
+ * @additionalProperties {
+ *  "elementName": "css-observe"
+ * } 
  */
-export interface ICssObserve<TElement = Element>{
+export interface ICssObserve extends IHydrate{
     /**
      * CSS selector to monitor for.
      * @attr
@@ -34,8 +37,7 @@ export interface ICssObserve<TElement = Element>{
 
     /**
      * Matching elements must fall within the closest ancestor matching this css expression.
-     * @items {"attr":"within-closest"}
-     * @attr
+     * @additionalProperties {"attr":"within-closest"}
      */
     withinClosest:  string | undefined;
 

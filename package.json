@@ -8,8 +8,8 @@
   "scripts": {
     "test": "node test/test-all.js",
     "serve": "node node_modules/xtal-test/serve.js",
-    "doc": "wca analyze css-observe.js --outFile custom-elements.json",
-    "toSchema": "typescript-json-schema --refs --aliasRefs --topRef --titles  types.d.ts ICSSObserve > schema.json"
+    "doc": "wca analyze css-observe-example0.js --outFile custom-elements.json",
+    "example1": "wca analyze css-observe-example0.js --outFile example1.json"
   },
   "dependencies": {
     "xtal-element": "0.0.298",
@@ -19,7 +19,6 @@
     "@webcomponents/webcomponentsjs": "2.4.4",
     "es-module-shims": "0.6.0",
     "p-et-alia": "0.0.115",
-    "typedoc": "^0.19.1",
     "xtal-test": "0.0.48"
   },
   "repository": {

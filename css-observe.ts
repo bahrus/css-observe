@@ -48,7 +48,14 @@ const linkClonedTemplate = ({disabled, clone, latestMatch, sym, self}: CssObserv
  * @event latest-match-changed - Fires when css match is found.
  */
 export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) implements ICssObserve{
+    /**
+     * @private
+     */
     static is = 'css-observe';
+    /**
+     * 
+     * @private
+     */
     static attributeProps = ({observe, selector, clone, disabled, customStyles, latestOuterMatch, latestMatch, withinClosest}: CssObserve) =>({
         bool: [observe, disabled, clone],
         obj: [latestOuterMatch, latestMatch],
