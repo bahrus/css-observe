@@ -9,17 +9,20 @@
     "test": "node test/test-all.js",
     "serve": "node node_modules/xtal-test/serve.js",
     "doc": "wca analyze css-observe-example0.js --outFile custom-elements.json",
-    "example1": "wca analyze css-observe-example0.js --outFile example1.json"
+    "example1": "wca analyze css-observe-example0.js --outFile example1.json",
+    "bundle": "rollup --config"
   },
   "dependencies": {
     "xtal-element": "0.0.310",
     "trans-render": "0.0.267"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^9.0.0",
     "@webcomponents/webcomponentsjs": "2.4.4",
     "es-module-shims": "0.6.0",
     "p-et-alia": "0.0.115",
-    "xtal-test": "0.0.48"
+    "xtal-test": "0.0.48",
+    "terser": "5.3.3"
   },
   "repository": {
     "type": "git",
