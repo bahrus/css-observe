@@ -4,7 +4,7 @@ import {IHydrate} from 'trans-render/types.d.js';
  *  "elementName": "css-observe"
  * } 
  */
-export interface ICssObserve extends IHydrate{
+export interface ICssObserve{
     /**
      * CSS selector to monitor for.
      * @attr
@@ -45,5 +45,6 @@ export interface ICssObserve extends IHydrate{
      * Latest Element matching css selector (and within the element specified by within-closest)
      */
     latestMatch: EventTarget | undefined;
+    
         
 }

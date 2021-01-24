@@ -1,13 +1,13 @@
-import {ReactiveSurface, xc} from 'xtal-element/lib/XtalCore.js';
-import {observeCssSelector} from 'xtal-element/lib/observeCssSelector.js';
-import {ICssObserve} from './types.js';
-export {ICssObserve as ICSSObserve} from './types.js';
-import {PropDef, PropDefMap, PropAction} from 'xtal-element/types.d.js';
-
+import {hydrate} from 'trans-render/hydrate.js';
+import {XtallatX, define} from 'xtal-element/xtal-latx.js';
+import {observeCssSelector} from 'xtal-element/observeCssSelector.js';
+import {AttributeProps} from 'xtal-element/types.d.js';
+import {ICssObserve} from './types.d.js';
+export {ICssObserve as ICSSObserve} from './types.d.js';
 
 const linkInsertListener = ({disabled, observe, selector, self, customStyles}: CssObserve) =>{
     self.disconnect();
-    if(disabled || !observe || selector === undefined) return;
+    if(disabled || !observe || !self.isConnected || selector === undefined) return;
     if(self.id === ''){
         self.id = CssObserve.is + (new Date()).valueOf();
     }
@@ -43,45 +43,38 @@ const linkClonedTemplate = ({disabled, clone, latestMatch, sym, self}: CssObserv
     }
 }
 
-const propActions = [
-    linkInsertListener,
-    linkClosestContainer,
-    linkLatestMatch,
-    linkClonedTemplate
-] as PropAction[];
-
-
-const bool: PropDef = {
-    type: Boolean,
-    reflect: true
-};
-const obj: PropDef = {
-    type: Object
-};
-const str: PropDef = {
-    type: String
-};
-const propDefMap: PropDefMap<CssObserve> = {
-    observe: bool, disabled:  bool, clone: bool,
-    latestOuterMatch: obj, 
-    latestMatch: {
-        type: Object,
-        notify: true
-    },
-    selector: {
-        type: String,
-        reflect: true,
-    }, 
-    customStyles: str, withinClosest: str,
-};
-const slicedPropDefs = xc.getSlicedPropDefs(propDefMap);
-
-export class CssObserve extends observeCssSelector(HTMLElement) implements ICssObserve, ReactiveSurface{
+/**
+ * @element css-observe
+ * @event latest-match-changed - Fires when css match is found.
+ */
+export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) implements ICssObserve{
+    /**
+     * @private
+     */
     static is = 'css-observe';
-    self = this;
-    propActions = propActions;
-    reactor = new xc.Reactor(this);
-    disabled!: boolean;
+    /**
+     * 
+     * @private
+     */
+    static attributeProps = ({observe, selector, clone, disabled, customStyles, latestOuterMatch, latestMatch, withinClosest}: CssObserve) =>({
+        bool: [observe, disabled, clone],
+        obj: [latestOuterMatch, latestMatch],
+        notify: [latestMatch],
+        str: [selector, customStyles, withinClosest],
+        reflect: [observe, disabled, clone, selector]
+    } as AttributeProps);
+
+    /**
+     * @private
+     * Needs to be unique symbol per instance
+     */
+    sym = Symbol();
+
+    connectedCallback(){
+        this.style.display='none';
+        super.connectedCallback();
+    }
+
     /**
      * CSS selector to monitor for.
      * @attr
@@ -108,9 +101,14 @@ export class CssObserve extends observeCssSelector(HTMLElement) implements ICssO
     /**
      * @private
      */
+    propActions = [
+        linkInsertListener,
+        linkClosestContainer,
+        linkLatestMatch,
+        linkClonedTemplate
+    ]
 
-
-        /**
+    /**
      * @private
      */
     latestOuterMatch: Element | undefined;
@@ -140,27 +138,6 @@ export class CssObserve extends observeCssSelector(HTMLElement) implements ICssO
             
         }
     }
-
-    /**
-     * @private
-     * Needs to be unique symbol per instance
-     */
-    sym = Symbol();    
-
-    connectedCallback(){
-        this.style.display = 'none';
-        xc.hydrate(this, slicedPropDefs);
-    }
-    onPropChange(n: string, propDef: PropDef, newVal: any){
-        this.reactor.addToQueue(propDef, newVal);
-    }
-
 }
-xc.letThereBeProps(CssObserve, slicedPropDefs.propDefs, 'onPropChange');
-xc.define(CssObserve);
 
-declare global {
-    interface HTMLElementTagNameMap {
-        "css-observe": CssObserve,
-    }
-}
+define(CssObserve);

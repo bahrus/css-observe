@@ -1,9 +1,8 @@
-import { hydrate } from 'trans-render/hydrate.js';
-import { XtallatX, define } from 'xtal-element/xtal-latx.js';
-import { observeCssSelector } from 'xtal-element/observeCssSelector.js';
+import { xc } from 'xtal-element/lib/XtalCore.js';
+import { observeCssSelector } from 'xtal-element/lib/observeCssSelector.js';
 const linkInsertListener = ({ disabled, observe, selector, self, customStyles }) => {
     self.disconnect();
-    if (disabled || !observe || !self.isConnected || selector === undefined)
+    if (disabled || !observe || selector === undefined)
         return;
     if (self.id === '') {
         self.id = CssObserve.is + (new Date()).valueOf();
@@ -43,35 +42,51 @@ const linkClonedTemplate = ({ disabled, clone, latestMatch, sym, self }) => {
         parent[sym] = true;
     }
 };
-/**
- * @element css-observe
- * @event latest-match-changed - Fires when css match is found.
- */
-export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement))) {
+const propActions = [
+    linkInsertListener,
+    linkClosestContainer,
+    linkLatestMatch,
+    linkClonedTemplate
+];
+const bool = {
+    type: Boolean,
+    reflect: true
+};
+const obj = {
+    type: Object
+};
+const str = {
+    type: String
+};
+const propDefMap = {
+    observe: bool, disabled: bool, clone: bool,
+    latestOuterMatch: obj,
+    latestMatch: {
+        type: Object,
+        notify: true
+    },
+    selector: {
+        type: String,
+        reflect: true,
+    },
+    customStyles: str, withinClosest: str,
+};
+const slicedPropDefs = xc.getSlicedPropDefs(propDefMap);
+export class CssObserve extends observeCssSelector(HTMLElement) {
     constructor() {
         super(...arguments);
-        /**
-         * @private
-         * Needs to be unique symbol per instance
-         */
-        this.sym = Symbol();
+        this.self = this;
+        this.propActions = propActions;
+        this.reactor = new xc.Reactor(this);
         /**
          * Insert some associated needed styles.
          */
         this.customStyles = '';
         /**
          * @private
+         * Needs to be unique symbol per instance
          */
-        this.propActions = [
-            linkInsertListener,
-            linkClosestContainer,
-            linkLatestMatch,
-            linkClonedTemplate
-        ];
-    }
-    connectedCallback() {
-        this.style.display = 'none';
-        super.connectedCallback();
+        this.sym = Symbol();
     }
     insertListener(e) {
         if (e.animationName === this.id) {
@@ -81,20 +96,14 @@ export class CssObserve extends observeCssSelector(XtallatX(hydrate(HTMLElement)
             }, 0);
         }
     }
+    connectedCallback() {
+        this.style.display = 'none';
+        xc.hydrate(this, slicedPropDefs);
+    }
+    onPropChange(n, propDef, newVal) {
+        this.reactor.addToQueue(propDef, newVal);
+    }
 }
-/**
- * @private
- */
 CssObserve.is = 'css-observe';
-/**
- *
- * @private
- */
-CssObserve.attributeProps = ({ observe, selector, clone, disabled, customStyles, latestOuterMatch, latestMatch, withinClosest }) => ({
-    bool: [observe, disabled, clone],
-    obj: [latestOuterMatch, latestMatch],
-    notify: [latestMatch],
-    str: [selector, customStyles, withinClosest],
-    reflect: [observe, disabled, clone, selector]
-});
-define(CssObserve);
+xc.letThereBeProps(CssObserve, slicedPropDefs.propDefs, 'onPropChange');
+xc.define(CssObserve);

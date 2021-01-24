@@ -13,16 +13,15 @@
     "bundle": "rollup --config"
   },
   "dependencies": {
-    "xtal-element": "0.0.310",
-    "trans-render": "0.0.267"
+    "trans-render": "0.0.273",
+    "xtal-element": "0.0.332"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "@webcomponents/webcomponentsjs": "2.4.4",
-    "es-module-shims": "0.6.0",
-    "p-et-alia": "0.0.115",
-    "xtal-test": "0.0.48",
-    "terser": "5.3.3"
+    "@rollup/plugin-node-resolve": "11.1.0",
+    "es-module-shims": "0.9.0",
+    "p-et-alia": "0.0.120",
+    "terser": "5.5.1",
+    "xtal-test": "0.0.48"
   },
   "repository": {
     "type": "git",
