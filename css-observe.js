@@ -63,7 +63,8 @@ const propDefMap = {
     latestOuterMatch: obj,
     latestMatch: {
         type: Object,
-        notify: true
+        notify: true,
+        stopNotificationIfFalsy: true,
     },
     selector: {
         type: String,
