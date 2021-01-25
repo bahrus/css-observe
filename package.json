@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "trans-render": "0.0.273",
-    "xtal-element": "0.0.333"
+    "xtal-element": "0.0.334"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "11.1.0",
