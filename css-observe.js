@@ -1,6 +1,6 @@
 import { xc } from 'xtal-element/lib/XtalCore.js';
 import { observeCssSelector } from 'xtal-element/lib/observeCssSelector.js';
-const linkInsertListener = ({ disabled, observe, selector, self, customStyles }) => {
+const linkInsertListener = ({ disabled, observe, selector, self, customStyles, isConn }) => {
     self.disconnect();
     if (disabled || !observe || selector === undefined)
         return;
@@ -61,6 +61,10 @@ const str = {
 const propDefMap = {
     observe: bool, disabled: bool, clone: bool,
     latestOuterMatch: obj,
+    isConn: {
+        type: Boolean,
+        stopNotificationIfFalsy: true,
+    },
     latestMatch: {
         type: Object,
         notify: true,
@@ -100,6 +104,7 @@ export class CssObserve extends observeCssSelector(HTMLElement) {
     connectedCallback() {
         this.style.display = 'none';
         xc.hydrate(this, slicedPropDefs);
+        this.isConn = true;
     }
     onPropChange(n, propDef, newVal) {
         this.reactor.addToQueue(propDef, newVal);

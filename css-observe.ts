@@ -5,7 +5,7 @@ export {ICssObserve as ICSSObserve} from './types.js';
 import {PropDef, PropDefMap, PropAction} from 'xtal-element/types.d.js';
 
 
-const linkInsertListener = ({disabled, observe, selector, self, customStyles}: CssObserve) =>{
+const linkInsertListener = ({disabled, observe, selector, self, customStyles, isConn}: CssObserve) =>{
     self.disconnect();
     if(disabled || !observe || selector === undefined) return;
     if(self.id === ''){
@@ -64,6 +64,10 @@ const str: PropDef = {
 const propDefMap: PropDefMap<CssObserve> = {
     observe: bool, disabled:  bool, clone: bool,
     latestOuterMatch: obj, 
+    isConn: {
+        type: Boolean,
+        stopNotificationIfFalsy: true,
+    },
     latestMatch: {
         type: Object,
         notify: true,
@@ -147,10 +151,11 @@ export class CssObserve extends observeCssSelector(HTMLElement) implements ICssO
      * Needs to be unique symbol per instance
      */
     sym = Symbol();    
-
+    isConn: boolean | undefined;
     connectedCallback(){
         this.style.display = 'none';
         xc.hydrate(this, slicedPropDefs);
+        this.isConn = true;
     }
     onPropChange(n: string, propDef: PropDef, newVal: any){
         this.reactor.addToQueue(propDef, newVal);
