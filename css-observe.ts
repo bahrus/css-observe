@@ -66,7 +66,7 @@ const propDefMap: PropDefMap<CssObserve> = {
     latestOuterMatch: obj, 
     isConn: {
         type: Boolean,
-        stopNotificationIfFalsy: true,
+        stopReactionsIfFalsy: true,
     },
     latestMatch: {
         type: Object,
