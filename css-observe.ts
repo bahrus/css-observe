@@ -83,6 +83,10 @@ const slicedPropDefs = xc.getSlicedPropDefs(propDefMap);
 
 export class CssObserve extends observeCssSelector(HTMLElement) implements ICssObserve, ReactiveSurface{
     static is = 'css-observe';
+    static observedAttributes = ['disabled'];
+    attributeChangedCallback(n: string, ov: string, nv: string){
+        this.disabled = nv !== null;
+    }
     self = this;
     propActions = propActions;
     reactor = new xc.Rx(this);

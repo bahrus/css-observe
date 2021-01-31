@@ -93,6 +93,9 @@ export class CssObserve extends observeCssSelector(HTMLElement) {
          */
         this.sym = Symbol();
     }
+    attributeChangedCallback(n, ov, nv) {
+        this.disabled = nv !== null;
+    }
     insertListener(e) {
         if (e.animationName === this.id) {
             const target = e.target;
@@ -111,5 +114,6 @@ export class CssObserve extends observeCssSelector(HTMLElement) {
     }
 }
 CssObserve.is = 'css-observe';
+CssObserve.observedAttributes = ['disabled'];
 xc.letThereBeProps(CssObserve, slicedPropDefs.propDefs, 'onPropChange');
 xc.define(CssObserve);
