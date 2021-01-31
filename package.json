@@ -14,12 +14,12 @@
   },
   "dependencies": {
     "trans-render": "0.0.276",
-    "xtal-element": "0.0.337"
+    "xtal-element": "0.0.339"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "11.1.0",
+    "@rollup/plugin-node-resolve": "11.1.1",
     "es-module-shims": "0.9.0",
-    "p-et-alia": "0.0.120",
+    "on-to-me": "0.0.6",
     "terser": "5.5.1",
     "xtal-test": "0.0.48"
   },

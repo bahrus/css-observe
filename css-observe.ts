@@ -85,7 +85,7 @@ export class CssObserve extends observeCssSelector(HTMLElement) implements ICssO
     static is = 'css-observe';
     self = this;
     propActions = propActions;
-    reactor = new xc.Reactor(this);
+    reactor = new xc.Rx(this);
     disabled!: boolean;
     /**
      * CSS selector to monitor for.

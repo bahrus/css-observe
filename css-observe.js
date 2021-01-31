@@ -82,7 +82,7 @@ export class CssObserve extends observeCssSelector(HTMLElement) {
         super(...arguments);
         this.self = this;
         this.propActions = propActions;
-        this.reactor = new xc.Reactor(this);
+        this.reactor = new xc.Rx(this);
         /**
          * Insert some associated needed styles.
          */
