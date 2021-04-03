@@ -1,6 +1,6 @@
 {
   "name": "css-observe",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "description": "Fire a custom event whenever an element matching a specified selector is added.",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "main": "css-observe.js",
