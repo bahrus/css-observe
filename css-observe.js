@@ -115,5 +115,5 @@ export class CssObserve extends observeCssSelector(HTMLElement) {
 }
 CssObserve.is = 'css-observe';
 CssObserve.observedAttributes = ['disabled'];
-xc.letThereBeProps(CssObserve, slicedPropDefs.propDefs, 'onPropChange');
+xc.letThereBeProps(CssObserve, slicedPropDefs, 'onPropChange');
 xc.define(CssObserve);

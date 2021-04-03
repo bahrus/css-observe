@@ -166,7 +166,7 @@ export class CssObserve extends observeCssSelector(HTMLElement) implements ICssO
     }
 
 }
-xc.letThereBeProps(CssObserve, slicedPropDefs.propDefs, 'onPropChange');
+xc.letThereBeProps(CssObserve, slicedPropDefs, 'onPropChange');
 xc.define(CssObserve);
 
 declare global {
