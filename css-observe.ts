@@ -1,4 +1,4 @@
-import {ReactiveSurface, xc} from 'xtal-element/lib/XtalCore.js';
+import {ReactiveSurface, xc, IReactor} from 'xtal-element/lib/XtalCore.js';
 import {observeCssSelector} from 'xtal-element/lib/observeCssSelector.js';
 import {ICssObserve} from './types.js';
 export {ICssObserve as ICSSObserve} from './types.js';
@@ -89,7 +89,7 @@ export class CssObserve extends observeCssSelector(HTMLElement) implements ICssO
     }
     self = this;
     propActions = propActions;
-    reactor = new xc.Rx(this);
+    reactor: IReactor = new xc.Rx(this);
     disabled!: boolean;
     /**
      * CSS selector to monitor for.

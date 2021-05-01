@@ -8,6 +8,9 @@
 		"strict": true,
 		"watch": true
 	},
+	"files":[
+		"css-observe.ts"
+	],
 	"exclude":[
 		"build",
 		"bower_components",
