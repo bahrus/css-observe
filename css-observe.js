@@ -78,24 +78,22 @@ const propDefMap = {
 };
 const slicedPropDefs = xc.getSlicedPropDefs(propDefMap);
 export class CssObserve extends observeCssSelector(HTMLElement) {
-    constructor() {
-        super(...arguments);
-        this.self = this;
-        this.propActions = propActions;
-        this.reactor = new xc.Rx(this);
-        /**
-         * Insert some associated needed styles.
-         */
-        this.customStyles = '';
-        /**
-         * @private
-         * Needs to be unique symbol per instance
-         */
-        this.sym = Symbol();
-    }
+    static is = 'css-observe';
+    static observedAttributes = ['disabled'];
     attributeChangedCallback(n, ov, nv) {
         this.disabled = nv !== null;
     }
+    self = this;
+    propActions = propActions;
+    reactor = new xc.Rx(this);
+    /**
+     * @private
+     */
+    latestOuterMatch;
+    /**
+     * @private
+     */
+    closestContainer;
     insertListener(e) {
         if (e.animationName === this.id) {
             const target = e.target;
@@ -104,16 +102,20 @@ export class CssObserve extends observeCssSelector(HTMLElement) {
             }, 0);
         }
     }
+    /**
+     * @private
+     * Needs to be unique symbol per instance
+     */
+    sym = Symbol();
+    isConn;
     connectedCallback() {
         this.style.display = 'none';
-        xc.hydrate(this, slicedPropDefs);
+        xc.mergeProps(this, slicedPropDefs);
         this.isConn = true;
     }
     onPropChange(n, propDef, newVal) {
         this.reactor.addToQueue(propDef, newVal);
     }
 }
-CssObserve.is = 'css-observe';
-CssObserve.observedAttributes = ['disabled'];
 xc.letThereBeProps(CssObserve, slicedPropDefs, 'onPropChange');
 xc.define(CssObserve);
