@@ -1,93 +1,424 @@
 {
-  "version": "experimental",
-  "tags": [
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
     {
-      "name": "css-observe",
-      "path": "./css-observe-example0.js",
-      "attributes": [
+      "kind": "javascript-module",
+      "path": "css-observe-example0.js",
+      "declarations": [
         {
-          "name": "selector",
-          "description": "CSS selector to monitor for.",
-          "type": "string",
-          "default": "\"\""
-        },
-        {
-          "name": "observe",
-          "description": "This attribute/property must be present/true for anything to happen.",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "clone",
-          "description": "Clone template inside when css match is found.",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "withinClosest",
-          "description": "Matching elements must fall within the closest ancestor matching this css expression.",
-          "type": "string",
-          "default": "\"\""
-        },
-        {
-          "name": "disabled",
-          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-          "type": "boolean"
+          "kind": "class",
+          "description": "",
+          "name": "CSSObserveExample0",
+          "superclass": {
+            "name": "CssObserve",
+            "module": "/css-observe.js"
+          },
+          "tagName": "css-observe",
+          "customElement": true,
+          "members": [
+            {
+              "kind": "method",
+              "name": "insertListener",
+              "parameters": [
+                {
+                  "name": "e"
+                }
+              ],
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
+            }
+          ],
+          "events": [
+            {
+              "description": "Fires when css match is found.",
+              "name": "latest-match-changed",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
+            }
+          ]
         }
       ],
-      "properties": [
+      "exports": [
         {
-          "name": "selector",
-          "attribute": "selector",
-          "description": "CSS selector to monitor for.",
-          "type": "string",
-          "default": "\"\""
-        },
-        {
-          "name": "observe",
-          "attribute": "observe",
-          "description": "This attribute/property must be present/true for anything to happen.",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "clone",
-          "attribute": "clone",
-          "description": "Clone template inside when css match is found.",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "customStyles",
-          "description": "Insert some associated needed styles.",
-          "type": "string",
-          "default": "\"\""
-        },
-        {
-          "name": "withinClosest",
-          "attribute": "withinClosest",
-          "description": "Matching elements must fall within the closest ancestor matching this css expression.",
-          "type": "string",
-          "default": "\"\""
-        },
-        {
-          "name": "latestMatch",
-          "description": "Latest Element matching css selector (and within the element specified by within-closest)",
-          "type": "Element | undefined"
-        },
-        {
-          "name": "disabled",
-          "attribute": "disabled",
-          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
-          "type": "boolean"
-        }
-      ],
-      "events": [
-        {
-          "name": "latest-match-changed",
-          "description": "Fires when css match is found."
+          "kind": "js",
+          "name": "CSSObserveExample0",
+          "declaration": {
+            "name": "CSSObserveExample0",
+            "module": "css-observe-example0.js"
+          }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "css-observe-example0.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CSSObserveExample0",
+          "members": [
+            {
+              "kind": "field",
+              "name": "selector",
+              "type": {
+                "text": "string"
+              },
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "observe",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "clone",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "withinClosest",
+              "type": {
+                "text": "string"
+              },
+              "default": "''"
+            },
+            {
+              "kind": "method",
+              "name": "insertListener",
+              "parameters": [
+                {
+                  "name": "e"
+                }
+              ],
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "CssObserve",
+            "module": "/css-observe.js"
+          },
+          "tagName": "css-observe",
+          "customElement": true,
+          "events": [
+            {
+              "description": "Fires when css match is found.",
+              "name": "latest-match-changed",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CSSObserveExample0",
+          "declaration": {
+            "name": "CSSObserveExample0",
+            "module": "css-observe-example0.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "css-observe.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CssObserve",
+          "members": [
+            {
+              "kind": "method",
+              "name": "insertListener",
+              "parameters": [
+                {
+                  "name": "e"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onPropChange",
+              "parameters": [
+                {
+                  "name": "n"
+                },
+                {
+                  "name": "propDef"
+                },
+                {
+                  "name": "newVal"
+                }
+              ]
+            }
+          ],
+          "mixins": [
+            {
+              "name": "observeCssSelector",
+              "package": "xtal-element/lib/observeCssSelector.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CssObserve",
+          "declaration": {
+            "name": "CssObserve",
+            "module": "css-observe.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "css-observe.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CssObserve",
+          "members": [
+            {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'css-observe'"
+            },
+            {
+              "kind": "field",
+              "name": "self",
+              "default": "this"
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "default": "[\r\n    linkInsertListener,\r\n    linkClosestContainer,\r\n    linkLatestMatch,\r\n    linkClonedTemplate\r\n]"
+            },
+            {
+              "kind": "field",
+              "name": "reactor",
+              "type": {
+                "text": "IReactor"
+              },
+              "default": "new xc.Rx(this)"
+            },
+            {
+              "kind": "field",
+              "name": "latestOuterMatch",
+              "type": {
+                "text": "Element | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "closestContainer",
+              "type": {
+                "text": "Element | undefined | null"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "insertListener",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "AnimationEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "sym",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "isConn",
+              "type": {
+                "text": "boolean | undefined"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "onPropChange",
+              "parameters": [
+                {
+                  "name": "n",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "propDef",
+                  "type": {
+                    "text": "PropDef"
+                  }
+                },
+                {
+                  "name": "newVal",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "observeCssSelector",
+              "package": "xtal-element/lib/observeCssSelector.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "ICssObserve",
+          "declaration": {
+            "name": "CssObserveProps",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CssObserve",
+          "declaration": {
+            "name": "CssObserve",
+            "module": "css-observe.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "minify.js",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "types.d.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "dist/css-observe.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "name",
+          "default": "tagName"
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CssObserve",
+          "members": [
+            {
+              "kind": "method",
+              "name": "insertListener",
+              "parameters": [
+                {
+                  "name": "e"
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "description": "Fires when css match is found.",
+              "name": "latest-match-changed"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "observeCssSelector",
+              "module": "dist/css-observe.js"
+            },
+            {
+              "name": "XtallatX",
+              "module": "dist/css-observe.js"
+            },
+            {
+              "name": "hydrate",
+              "module": "dist/css-observe.js"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "tagName": "css-observe",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "name",
+          "declaration": {
+            "name": "MyElementClass",
+            "module": "dist/css-observe.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CssObserve",
+          "declaration": {
+            "name": "CssObserve",
+            "module": "dist/css-observe.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "test/test-all.js",
+      "declarations": [],
+      "exports": []
     }
   ]
 }

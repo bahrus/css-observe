@@ -8,7 +8,7 @@
   "scripts": {
     "test": "node test/test-all.js",
     "serve": "node node_modules/xtal-test/serve.js",
-    "doc": "wca analyze css-observe-example0.js --outFile custom-elements.json",
+    "doc": "custom-elements-manifest analyze",
     "example1": "wca analyze css-observe-example0.js --outFile example1.json",
     "bundle": "rollup --config"
   },
@@ -19,7 +19,8 @@
     "@rollup/plugin-node-resolve": "13.0.0",
     "on-to-me": "0.0.23",
     "terser": "5.7.1",
-    "xtal-test": "0.0.51"
+    "xtal-test": "0.0.51",
+    "@custom-elements-manifest/analyzer": "0.4.8"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,6 @@
   "bugs": {
     "url": "https://github.com/bahrus/css-observe/issues"
   },
-  "homepage": "https://github.com/bahrus/css-observe#readme"
+  "homepage": "https://github.com/bahrus/css-observe#readme",
+  "customElements": "custom-elements.json"
 }
