@@ -1,7 +1,7 @@
 import {ReactiveSurface, xc, IReactor} from 'xtal-element/lib/XtalCore.js';
 import {observeCssSelector} from 'xtal-element/lib/observeCssSelector.js';
-import {ICssObserve} from './types.js';
-export {ICssObserve as ICSSObserve} from './types.js';
+import {CssObserveProps} from './types.js';
+export {CssObserveProps as ICssObserve} from './types.js';
 import {PropDef, PropDefMap, PropAction} from 'xtal-element/types.d.js';
 
 
@@ -81,7 +81,7 @@ const propDefMap: PropDefMap<CssObserve> = {
 };
 const slicedPropDefs = xc.getSlicedPropDefs(propDefMap);
 
-export class CssObserve extends observeCssSelector(HTMLElement) implements ICssObserve, ReactiveSurface{
+export class CssObserve extends observeCssSelector(HTMLElement) implements CssObserveProps, ReactiveSurface{
     static is = 'css-observe';
     static observedAttributes = ['disabled'];
     attributeChangedCallback(n: string, ov: string, nv: string){
@@ -90,50 +90,13 @@ export class CssObserve extends observeCssSelector(HTMLElement) implements ICssO
     self = this;
     propActions = propActions;
     reactor: IReactor = new xc.Rx(this);
-    disabled!: boolean;
-    /**
-     * CSS selector to monitor for.
-     * @attr
-     */
-    selector!: string;
-
-    /**
-     * This attribute/property must be present/true for anything to happen.
-     * @attr
-     */
-    observe!: boolean;
-        
-    /**
-     * Clone template inside when css match is found.
-     * @attr
-     */
-    clone!:  boolean;
-
-    /**
-     * Insert some associated needed styles.
-     */
-    customStyles = '';
-
-    /**
-     * @private
-     */
 
 
-        /**
+    /**
      * @private
      */
     latestOuterMatch: Element | undefined;
 
-    /**
-     * Latest Element matching css selector (and within the element specified by within-closest)
-     */
-    latestMatch: Element | undefined;
-
-    /**
-     * Matching elements must fall within the closest ancestor matching this css expression.
-     * @attr
-     */
-    withinClosest:  string | undefined;
 
     /**
      * @private
@@ -158,7 +121,7 @@ export class CssObserve extends observeCssSelector(HTMLElement) implements ICssO
     isConn: boolean | undefined;
     connectedCallback(){
         this.style.display = 'none';
-        xc.hydrate(this, slicedPropDefs);
+        xc.mergeProps(this, slicedPropDefs);
         this.isConn = true;
     }
     onPropChange(n: string, propDef: PropDef, newVal: any){
@@ -166,6 +129,7 @@ export class CssObserve extends observeCssSelector(HTMLElement) implements ICssO
     }
 
 }
+export interface CssObserve extends CssObserveProps{}
 xc.letThereBeProps(CssObserve, slicedPropDefs, 'onPropChange');
 xc.define(CssObserve);
 
