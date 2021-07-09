@@ -10,13 +10,39 @@
           "kind": "class",
           "description": "",
           "name": "CSSObserveExample0",
-          "superclass": {
-            "name": "CssObserve",
-            "module": "/css-observe.js"
-          },
-          "tagName": "css-observe",
-          "customElement": true,
           "members": [
+            {
+              "kind": "field",
+              "name": "selector",
+              "type": {
+                "text": "string"
+              },
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "observe",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "clone",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "withinClosest",
+              "type": {
+                "text": "string"
+              },
+              "default": "''"
+            },
             {
               "kind": "method",
               "name": "insertListener",
@@ -29,8 +55,49 @@
                 "name": "CssObserve",
                 "module": "dist/css-observe.js"
               }
+            },
+            {
+              "kind": "field",
+              "name": "sym",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "customStyles",
+              "type": {
+                "text": "string"
+              },
+              "description": "Insert some associated needed styles.",
+              "default": "''",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "type": {
+                "text": "array"
+              },
+              "privacy": "private",
+              "default": "[\r\n            linkInsertListener,\r\n            linkClosestContainer,\r\n            linkLatestMatch,\r\n            linkClonedTemplate\r\n        ]",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
             }
           ],
+          "superclass": {
+            "name": "CssObserve",
+            "module": "/css-observe.js"
+          },
+          "tagName": "css-observe",
+          "customElement": true,
           "events": [
             {
               "description": "Fires when css match is found.",
@@ -107,6 +174,41 @@
                 "name": "CssObserve",
                 "module": "dist/css-observe.js"
               }
+            },
+            {
+              "kind": "field",
+              "name": "sym",
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "customStyles",
+              "type": {
+                "text": "string"
+              },
+              "description": "Insert some associated needed styles.",
+              "default": "''",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "type": {
+                "text": "array"
+              },
+              "privacy": "private",
+              "default": "[\r\n            linkInsertListener,\r\n            linkClosestContainer,\r\n            linkLatestMatch,\r\n            linkClonedTemplate\r\n        ]",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "dist/css-observe.js"
+              }
             }
           ],
           "superclass": {
@@ -148,6 +250,43 @@
           "name": "CssObserve",
           "members": [
             {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'css-observe'"
+            },
+            {
+              "kind": "field",
+              "name": "self",
+              "default": "this"
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "default": "[\n    linkInsertListener,\n    linkClosestContainer,\n    linkLatestMatch,\n    linkClonedTemplate\n]",
+              "type": {
+                "text": "array"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "reactor",
+              "default": "new xc.Rx(this)"
+            },
+            {
+              "kind": "field",
+              "name": "latestOuterMatch",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "closestContainer",
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "insertListener",
               "parameters": [
@@ -155,6 +294,15 @@
                   "name": "e"
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "sym",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "isConn"
             },
             {
               "kind": "method",
@@ -170,6 +318,11 @@
                   "name": "newVal"
                 }
               ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled"
             }
           ],
           "mixins": [
@@ -366,6 +519,29 @@
                   "name": "e"
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "sym",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "customStyles",
+              "type": {
+                "text": "string"
+              },
+              "description": "Insert some associated needed styles.",
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "type": {
+                "text": "array"
+              },
+              "privacy": "private",
+              "default": "[\r\n            linkInsertListener,\r\n            linkClosestContainer,\r\n            linkLatestMatch,\r\n            linkClonedTemplate\r\n        ]"
             }
           ],
           "events": [
