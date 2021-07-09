@@ -13,14 +13,14 @@
     "bundle": "rollup --config"
   },
   "dependencies": {
-    "xtal-element": "0.0.411"
+    "xtal-element": "0.0.413"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "13.0.0",
-    "on-to-me": "0.0.23",
+    "on-to-me": "0.0.26",
     "terser": "5.7.1",
     "xtal-test": "0.0.51",
-    "@custom-elements-manifest/analyzer": "0.4.8"
+    "@custom-elements-manifest/analyzer": "0.4.11"
   },
   "repository": {
     "type": "git",
