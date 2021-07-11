@@ -44,16 +44,86 @@
               "default": "''"
             },
             {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'css-observe'",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "self",
+              "default": "this",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "default": "[\r\n    linkInsertListener,\r\n    linkClosestContainer,\r\n    linkLatestMatch,\r\n    linkClonedTemplate\r\n]",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "reactor",
+              "type": {
+                "text": "IReactor"
+              },
+              "default": "new xc.Rx(this)",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "latestOuterMatch",
+              "type": {
+                "text": "Element | undefined"
+              },
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "closestContainer",
+              "type": {
+                "text": "Element | undefined | null"
+              },
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
               "kind": "method",
               "name": "insertListener",
               "parameters": [
                 {
-                  "name": "e"
+                  "name": "e",
+                  "type": {
+                    "text": "AnimationEvent"
+                  }
                 }
               ],
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             },
             {
@@ -62,33 +132,46 @@
               "privacy": "private",
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             },
             {
               "kind": "field",
-              "name": "customStyles",
+              "name": "isConn",
               "type": {
-                "text": "string"
+                "text": "boolean | undefined"
               },
-              "description": "Insert some associated needed styles.",
-              "default": "''",
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             },
             {
-              "kind": "field",
-              "name": "propActions",
-              "type": {
-                "text": "array"
-              },
-              "privacy": "private",
-              "default": "[\r\n            linkInsertListener,\r\n            linkClosestContainer,\r\n            linkLatestMatch,\r\n            linkClonedTemplate\r\n        ]",
+              "kind": "method",
+              "name": "onPropChange",
+              "parameters": [
+                {
+                  "name": "n",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "propDef",
+                  "type": {
+                    "text": "PropDef"
+                  }
+                },
+                {
+                  "name": "newVal",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ],
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             }
           ],
@@ -98,13 +181,12 @@
           },
           "tagName": "css-observe",
           "customElement": true,
-          "events": [
+          "attributes": [
             {
-              "description": "Fires when css match is found.",
-              "name": "latest-match-changed",
+              "name": "disabled",
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             }
           ]
@@ -163,16 +245,86 @@
               "default": "''"
             },
             {
+              "kind": "field",
+              "name": "is",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'css-observe'",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "self",
+              "default": "this",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "propActions",
+              "default": "[\r\n    linkInsertListener,\r\n    linkClosestContainer,\r\n    linkLatestMatch,\r\n    linkClonedTemplate\r\n]",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "reactor",
+              "type": {
+                "text": "IReactor"
+              },
+              "default": "new xc.Rx(this)",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "latestOuterMatch",
+              "type": {
+                "text": "Element | undefined"
+              },
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "closestContainer",
+              "type": {
+                "text": "Element | undefined | null"
+              },
+              "privacy": "private",
+              "inheritedFrom": {
+                "name": "CssObserve",
+                "module": "css-observe.ts"
+              }
+            },
+            {
               "kind": "method",
               "name": "insertListener",
               "parameters": [
                 {
-                  "name": "e"
+                  "name": "e",
+                  "type": {
+                    "text": "AnimationEvent"
+                  }
                 }
               ],
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             },
             {
@@ -181,33 +333,46 @@
               "privacy": "private",
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             },
             {
               "kind": "field",
-              "name": "customStyles",
+              "name": "isConn",
               "type": {
-                "text": "string"
+                "text": "boolean | undefined"
               },
-              "description": "Insert some associated needed styles.",
-              "default": "''",
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             },
             {
-              "kind": "field",
-              "name": "propActions",
-              "type": {
-                "text": "array"
-              },
-              "privacy": "private",
-              "default": "[\r\n            linkInsertListener,\r\n            linkClosestContainer,\r\n            linkLatestMatch,\r\n            linkClonedTemplate\r\n        ]",
+              "kind": "method",
+              "name": "onPropChange",
+              "parameters": [
+                {
+                  "name": "n",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "propDef",
+                  "type": {
+                    "text": "PropDef"
+                  }
+                },
+                {
+                  "name": "newVal",
+                  "type": {
+                    "text": "any"
+                  }
+                }
+              ],
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             }
           ],
@@ -217,13 +382,12 @@
           },
           "tagName": "css-observe",
           "customElement": true,
-          "events": [
+          "attributes": [
             {
-              "description": "Fires when css match is found.",
-              "name": "latest-match-changed",
+              "name": "disabled",
               "inheritedFrom": {
                 "name": "CssObserve",
-                "module": "dist/css-observe.js"
+                "module": "css-observe.ts"
               }
             }
           ]
@@ -487,108 +651,9 @@
     },
     {
       "kind": "javascript-module",
-      "path": "minify.js",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
       "path": "types.d.ts",
       "declarations": [],
       "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "dist/css-observe.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "name",
-          "default": "tagName"
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "CssObserve",
-          "members": [
-            {
-              "kind": "method",
-              "name": "insertListener",
-              "parameters": [
-                {
-                  "name": "e"
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "sym",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "customStyles",
-              "type": {
-                "text": "string"
-              },
-              "description": "Insert some associated needed styles.",
-              "default": "''"
-            },
-            {
-              "kind": "field",
-              "name": "propActions",
-              "type": {
-                "text": "array"
-              },
-              "privacy": "private",
-              "default": "[\r\n            linkInsertListener,\r\n            linkClosestContainer,\r\n            linkLatestMatch,\r\n            linkClonedTemplate\r\n        ]"
-            }
-          ],
-          "events": [
-            {
-              "description": "Fires when css match is found.",
-              "name": "latest-match-changed"
-            }
-          ],
-          "mixins": [
-            {
-              "name": "observeCssSelector",
-              "module": "dist/css-observe.js"
-            },
-            {
-              "name": "XtallatX",
-              "module": "dist/css-observe.js"
-            },
-            {
-              "name": "hydrate",
-              "module": "dist/css-observe.js"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
-          "tagName": "css-observe",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "custom-element-definition",
-          "name": "name",
-          "declaration": {
-            "name": "MyElementClass",
-            "module": "dist/css-observe.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "CssObserve",
-          "declaration": {
-            "name": "CssObserve",
-            "module": "dist/css-observe.js"
-          }
-        }
-      ]
     },
     {
       "kind": "javascript-module",
