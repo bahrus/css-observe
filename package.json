@@ -13,12 +13,12 @@
     "bundle": "rollup --config"
   },
   "dependencies": {
-    "xtal-element": "0.0.414"
+    "xtal-element": "0.0.419"
   },
   "devDependencies": {
     "on-to-me": "0.0.28",
     "xtal-test": "0.0.51",
-    "@custom-elements-manifest/analyzer": "0.4.12"
+    "@custom-elements-manifest/analyzer": "0.4.17"
   },
   "repository": {
     "type": "git",

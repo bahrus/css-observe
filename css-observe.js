@@ -77,11 +77,15 @@ const propDefMap = {
     customStyles: str, withinClosest: str,
 };
 const slicedPropDefs = xc.getSlicedPropDefs(propDefMap);
+/**
+ * @element css-observe
+ * @tag css-observe
+ */
 export class CssObserve extends observeCssSelector(HTMLElement) {
     static is = 'css-observe';
-    static observedAttributes = ['disabled'];
+    static observedAttributes = [...slicedPropDefs.boolNames, ...slicedPropDefs.strNames];
     attributeChangedCallback(n, ov, nv) {
-        this.disabled = nv !== null;
+        xc.passAttrToProp(this, slicedPropDefs, n, ov, nv);
     }
     self = this;
     propActions = propActions;

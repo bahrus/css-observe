@@ -3,6 +3,7 @@ import {observeCssSelector} from 'xtal-element/lib/observeCssSelector.js';
 import {CssObserveProps} from './types.js';
 export {CssObserveProps as ICssObserve} from './types.js';
 import {PropDef, PropDefMap, PropAction} from 'xtal-element/types.d.js';
+import { xp } from './node_modules/xtal-element/lib/XtalPattern.js';
 
 
 const linkInsertListener = ({disabled, observe, selector, self, customStyles, isConn}: CssObserve) =>{
@@ -81,11 +82,15 @@ const propDefMap: PropDefMap<CssObserve> = {
 };
 const slicedPropDefs = xc.getSlicedPropDefs(propDefMap);
 
+/**
+ * @element css-observe
+ * @tag css-observe
+ */
 export class CssObserve extends observeCssSelector(HTMLElement) implements CssObserveProps, ReactiveSurface{
     static is = 'css-observe';
-    static observedAttributes = ['disabled'];
+    static observedAttributes = [...slicedPropDefs.boolNames, ...slicedPropDefs.strNames];
     attributeChangedCallback(n: string, ov: string, nv: string){
-        this.disabled = nv !== null;
+        xc.passAttrToProp(this, slicedPropDefs, n, ov, nv);
     }
     self = this;
     propActions = propActions;

@@ -180,16 +180,7 @@
             "module": "/css-observe.js"
           },
           "tagName": "css-observe",
-          "customElement": true,
-          "attributes": [
-            {
-              "name": "disabled",
-              "inheritedFrom": {
-                "name": "CssObserve",
-                "module": "css-observe.ts"
-              }
-            }
-          ]
+          "customElement": true
         }
       ],
       "exports": [
@@ -381,16 +372,7 @@
             "module": "/css-observe.js"
           },
           "tagName": "css-observe",
-          "customElement": true,
-          "attributes": [
-            {
-              "name": "disabled",
-              "inheritedFrom": {
-                "name": "CssObserve",
-                "module": "css-observe.ts"
-              }
-            }
-          ]
+          "customElement": true
         }
       ],
       "exports": [
@@ -484,11 +466,6 @@
               ]
             }
           ],
-          "attributes": [
-            {
-              "name": "disabled"
-            }
-          ],
           "mixins": [
             {
               "name": "observeCssSelector",
@@ -498,6 +475,7 @@
           "superclass": {
             "name": "HTMLElement"
           },
+          "tagName": "css-observe",
           "customElement": true
         }
       ],
@@ -613,11 +591,6 @@
               ]
             }
           ],
-          "attributes": [
-            {
-              "name": "disabled"
-            }
-          ],
           "mixins": [
             {
               "name": "observeCssSelector",
@@ -627,6 +600,7 @@
           "superclass": {
             "name": "HTMLElement"
           },
+          "tagName": "css-observe",
           "customElement": true
         }
       ],
