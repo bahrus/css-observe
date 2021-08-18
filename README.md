@@ -4,7 +4,7 @@
 
 [![Actions Status](https://github.com/bahrus/css-observe/workflows/CI/badge.svg)](https://github.com/bahrus/css-observe/actions?query=workflow%3ACI)
 
-<img src="https://badgen.net/bundlephobia/minzip/css-observe">
+<img src="https://badgen.net/bundlephobia/minzip/css-observe@0.0.48">
 
 # css-observe
 Fire a custom event whenever an element matching a specified selector is added to the (shadow dom) realm in which the instance is added.  Optionally, clone a template inside.

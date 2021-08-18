@@ -2,14 +2,6 @@ import { observeCssSelector } from 'trans-render/lib/mixins/observeCssSelector.j
 import { define } from 'trans-render/lib/define.js';
 import { NotifyMixin } from 'trans-render/lib/mixins/notify.js';
 export class CssObserveCore extends observeCssSelector(HTMLElement) {
-    constructor() {
-        super(...arguments);
-        /**
-         * @private
-         * Needs to be unique symbol per instance
-         */
-        this.sym = Symbol();
-    }
     linkClosestContainer(self) {
         const { withinClosest } = self;
         if (withinClosest === undefined) {
@@ -60,6 +52,11 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
             parent[sym] = true;
         }
     }
+    /**
+     * @private
+     * Needs to be unique symbol per instance
+     */
+    sym = Symbol();
 }
 const tagName = 'css-observe';
 const CssObserve = define({
