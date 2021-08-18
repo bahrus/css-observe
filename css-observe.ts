@@ -15,7 +15,7 @@ export class CssObserveCore extends observeCssSelector(HTMLElement){
             if(closestContainer === null){
                 console.warn("Could not locate closest container.");
             }else{
-                return <cc>{closestContainer};
+                return {closestContainer} as pcc;
             }
         }
     }
