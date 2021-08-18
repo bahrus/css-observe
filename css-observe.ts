@@ -9,11 +9,13 @@ export class CssObserveCore extends observeCssSelector(HTMLElement){
     linkClosestContainer(self: cc){
         const {withinClosest} = self;
         if(withinClosest === undefined){
-            delete self.closestContainer;
+            return null;
         }else{
-            self.closestContainer = self.closest(withinClosest);
-            if(self.closestContainer === null){
+            const closestContainer = self.closest(withinClosest);
+            if(closestContainer === null){
                 console.warn("Could not locate closest container.");
+            }else{
+                return <cc>{closestContainer};
             }
         }
     }
@@ -31,11 +33,12 @@ export class CssObserveCore extends observeCssSelector(HTMLElement){
     }
     linkLatestMatch(self: cc){
         const {latestOuterMatch, closestContainer} =  self;
+        const returnObj: pcc = {latestMatch: latestOuterMatch};
         if(closestContainer === null || closestContainer === undefined) {
-            self.latestMatch = latestOuterMatch;
+            return returnObj;
         }else{
             if(closestContainer.contains(latestOuterMatch!)){
-                self.latestMatch = latestOuterMatch;
+                return returnObj;
             }
         }
     }
@@ -67,6 +70,7 @@ export class CssObserveCore extends observeCssSelector(HTMLElement){
     sym = Symbol();  
 }
 type cc = CssObserveCore;
+type pcc = Partial<CssObserveCore>;
 const tagName = 'css-observe';
 export interface CssObserveCore extends CssObserveProps, INotifyPropInfo{}
 
@@ -90,7 +94,8 @@ const CssObserve = define<CssObserveCore, INotifyPropInfo>({
         actions:[
             {
                 do: 'linkClosestContainer',
-                upon: ['withinClosest']
+                upon: ['withinClosest'],
+                merge: true,
             },{
                 do: 'linkInsertListener',
                 upon: ['enabled', 'observe', 'selector', 'isC'],
@@ -98,7 +103,8 @@ const CssObserve = define<CssObserveCore, INotifyPropInfo>({
             },{
                 do: 'linkLatestMatch',
                 upon: ['latestOuterMatch', 'closestContainer'],
-                riff: ['latestOuterMatch']
+                riff: ['latestOuterMatch'],
+                merge: true
             },{
                 do: 'linkClonedTemplate',
                 upon: ['enabled', 'clone', 'latestMatch'],
