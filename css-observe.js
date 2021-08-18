@@ -1,103 +1,43 @@
-import { xc } from 'xtal-element/lib/XtalCore.js';
 import { observeCssSelector } from 'xtal-element/lib/observeCssSelector.js';
-const linkInsertListener = ({ disabled, observe, selector, self, customStyles, isConn }) => {
-    self.disconnect();
-    if (disabled || !observe || selector === undefined)
-        return;
-    if (self.id === '') {
-        self.id = CssObserve.is + (new Date()).valueOf();
+import { define } from 'trans-render/lib/define.js';
+import { NotifyMixin } from 'trans-render/lib/mixins/notify.js';
+export class CssObserveCore extends observeCssSelector(HTMLElement) {
+    connectedCallback() {
+        this.style.display = 'none';
     }
-    self.addCSSListener(self.id, selector, self.insertListener, customStyles);
-};
-const linkClosestContainer = ({ withinClosest, self }) => {
-    if (withinClosest === undefined) {
-        delete self.closestContainer;
-    }
-    else {
-        self.closestContainer = self.closest(withinClosest);
-        if (self.closestContainer === null) {
-            console.warn("Could not locate closest container.");
+    linkClosestContainer(self) {
+        const { withinClosest } = self;
+        if (withinClosest === undefined) {
+            delete self.closestContainer;
+        }
+        else {
+            self.closestContainer = self.closest(withinClosest);
+            if (self.closestContainer === null) {
+                console.warn("Could not locate closest container.");
+            }
         }
     }
-};
-const linkLatestMatch = ({ latestOuterMatch, closestContainer, self }) => {
-    if (latestOuterMatch === undefined)
-        return;
-    if (closestContainer === null || closestContainer === undefined) {
-        self.latestMatch = latestOuterMatch;
+    linkInsertListener(self) {
+        const { enabled, observe, selector, isC, customStyles, addCSSListener } = self;
+        this.disconnect();
+        //if(disabled || !observe || selector === undefined) return;
+        if (self.id === '') {
+            self.id = tagName + (new Date()).valueOf();
+        }
+        const boundAddCssListener = addCSSListener.bind(this);
+        boundAddCssListener(self.id, selector, this.insertListener, customStyles);
     }
-    else {
-        if (closestContainer.contains(latestOuterMatch)) {
+    linkLatestMatch(self) {
+        const { latestOuterMatch, closestContainer } = self;
+        if (closestContainer === null || closestContainer === undefined) {
             self.latestMatch = latestOuterMatch;
         }
+        else {
+            if (closestContainer.contains(latestOuterMatch)) {
+                self.latestMatch = latestOuterMatch;
+            }
+        }
     }
-};
-const linkClonedTemplate = ({ disabled, clone, latestMatch, sym, self }) => {
-    if (disabled || !clone || !latestMatch)
-        return;
-    const templ = self.querySelector('template');
-    const parent = self.parentElement;
-    if (parent !== null && (!parent[sym]) && templ !== null) {
-        parent.appendChild(templ.content.cloneNode(true));
-        parent[sym] = true;
-    }
-};
-const propActions = [
-    linkInsertListener,
-    linkClosestContainer,
-    linkLatestMatch,
-    linkClonedTemplate
-];
-const bool = {
-    type: Boolean,
-    reflect: true
-};
-const obj = {
-    type: Object
-};
-const str = {
-    type: String
-};
-const propDefMap = {
-    observe: bool, disabled: bool, clone: bool,
-    latestOuterMatch: obj,
-    isConn: {
-        type: Boolean,
-        stopReactionsIfFalsy: true,
-    },
-    latestMatch: {
-        type: Object,
-        notify: true,
-        stopNotificationIfFalsy: true,
-    },
-    selector: {
-        type: String,
-        reflect: true,
-    },
-    customStyles: str, withinClosest: str,
-};
-const slicedPropDefs = xc.getSlicedPropDefs(propDefMap);
-/**
- * @element css-observe
- * @tag css-observe
- */
-export class CssObserve extends observeCssSelector(HTMLElement) {
-    static is = 'css-observe';
-    static observedAttributes = [...slicedPropDefs.boolNames, ...slicedPropDefs.strNames];
-    attributeChangedCallback(n, ov, nv) {
-        xc.passAttrToProp(this, slicedPropDefs, n, ov, nv);
-    }
-    self = this;
-    propActions = propActions;
-    reactor = new xc.Rx(this);
-    /**
-     * @private
-     */
-    latestOuterMatch;
-    /**
-     * @private
-     */
-    closestContainer;
     insertListener(e) {
         if (e.animationName === this.id) {
             const target = e.target;
@@ -106,20 +46,58 @@ export class CssObserve extends observeCssSelector(HTMLElement) {
             }, 0);
         }
     }
+    linkClonedTemplate(self) {
+        const { disabled, clone, latestMatch, sym } = self;
+        const templ = self.querySelector('template');
+        const parent = self.parentElement;
+        if (parent !== null && (!parent[sym]) && templ !== null) {
+            parent.appendChild(templ.content.cloneNode(true));
+            parent[sym] = true;
+        }
+    }
     /**
      * @private
      * Needs to be unique symbol per instance
      */
     sym = Symbol();
-    isConn;
-    connectedCallback() {
-        this.style.display = 'none';
-        xc.mergeProps(this, slicedPropDefs);
-        this.isConn = true;
-    }
-    onPropChange(n, propDef, newVal) {
-        this.reactor.addToQueue(propDef, newVal);
-    }
 }
-xc.letThereBeProps(CssObserve, slicedPropDefs, 'onPropChange');
-xc.define(CssObserve);
+const tagName = 'css-observe';
+const CssObserve = define({
+    config: {
+        tagName: tagName,
+        propDefaults: {
+            disabled: false, enabled: true, observe: false, isC: true, clone: false,
+        },
+        propInfo: {
+            selector: {
+                type: 'String'
+            },
+            latestMatch: {
+                notify: { viaCustEvt: true }
+            },
+            disabled: {
+                notify: { toggleTo: 'enabled' }
+            }
+        },
+        actions: [
+            {
+                do: 'linkClosestContainer',
+                upon: ['withinClosest']
+            }, {
+                do: 'linkInsertListener',
+                upon: ['enabled', 'observe', 'selector', 'isC'],
+                riff: '"',
+            }, {
+                do: 'linkLatestMatch',
+                upon: ['latestOuterMatch', 'closestContainer'],
+                riff: ['latestOuterMatch']
+            }, {
+                do: 'linkClonedTemplate',
+                upon: ['enabled', 'clone', 'latestMatch'],
+                riff: '"'
+            }
+        ]
+    },
+    superclass: CssObserveCore,
+    mixins: [NotifyMixin],
+});

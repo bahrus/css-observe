@@ -9,13 +9,13 @@ export interface CssObserveProps{
      * CSS selector to monitor for.
      * @attr
      */
-    selector?: string | undefined;
+    selector?: string;
 
     /**
      * This attribute/property must be present/true for anything to happen.
      * @attr
      */
-    observe?: boolean | undefined;
+    observe?: boolean;
 
     
     /**
@@ -39,12 +39,17 @@ export interface CssObserveProps{
      * Matching elements must fall within the closest ancestor matching this css expression.
      * @additionalProperties {"attr":"within-closest"}
      */
-    withinClosest?:  string | undefined;
+    withinClosest?:  string;
 
     /**
      * Latest Element matching css selector (and within the element specified by within-closest)
      */
-    latestMatch?: EventTarget | undefined;
+    latestMatch?: EventTarget;
     
-    disabled?: boolean | undefined;
+    disabled?: boolean;
+    enabled?: boolean;
+    isC?: boolean;
+
+    latestOuterMatch?: Element;
+    closestContainer?: Element | null;
 }
