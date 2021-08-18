@@ -1,10 +1,7 @@
-import { observeCssSelector } from 'xtal-element/lib/observeCssSelector.js';
+import { observeCssSelector } from 'trans-render/lib/mixins/observeCssSelector.js';
 import { define } from 'trans-render/lib/define.js';
 import { NotifyMixin } from 'trans-render/lib/mixins/notify.js';
 export class CssObserveCore extends observeCssSelector(HTMLElement) {
-    connectedCallback() {
-        this.style.display = 'none';
-    }
     linkClosestContainer(self) {
         const { withinClosest } = self;
         if (withinClosest === undefined) {
@@ -96,7 +93,10 @@ const CssObserve = define({
                 upon: ['enabled', 'clone', 'latestMatch'],
                 riff: '"'
             }
-        ]
+        ],
+        style: {
+            display: 'none'
+        }
     },
     superclass: CssObserveCore,
     mixins: [NotifyMixin],
