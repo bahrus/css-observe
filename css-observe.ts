@@ -74,7 +74,7 @@ type pcc = Partial<CssObserveCore>;
 const tagName = 'css-observe';
 export interface CssObserveCore extends CssObserveProps, INotifyPropInfo{}
 
-const CssObserve = (new CE<CssObserveCore, INotifyPropInfo>()).def({
+export const CssObserve = (new CE<CssObserveCore, INotifyPropInfo>()).def({
     config:{
         tagName: tagName,
         propDefaults: {

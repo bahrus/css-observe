@@ -63,7 +63,7 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
     sym = Symbol();
 }
 const tagName = 'css-observe';
-const CssObserve = (new CE()).def({
+export const CssObserve = (new CE()).def({
     config: {
         tagName: tagName,
         propDefaults: {
