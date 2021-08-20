@@ -1,16 +1,19 @@
 import { observeCssSelector } from 'trans-render/lib/mixins/observeCssSelector.js';
-import { define } from 'trans-render/lib/define.js';
+import { CE } from 'trans-render/lib/CE.js';
 import { NotifyMixin } from 'trans-render/lib/mixins/notify.js';
 export class CssObserveCore extends observeCssSelector(HTMLElement) {
     linkClosestContainer(self) {
         const { withinClosest } = self;
         if (withinClosest === undefined) {
-            delete self.closestContainer;
+            return null;
         }
         else {
-            self.closestContainer = self.closest(withinClosest);
-            if (self.closestContainer === null) {
+            const closestContainer = self.closest(withinClosest);
+            if (closestContainer === null) {
                 console.warn("Could not locate closest container.");
+            }
+            else {
+                return { closestContainer };
             }
         }
     }
@@ -26,12 +29,13 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
     }
     linkLatestMatch(self) {
         const { latestOuterMatch, closestContainer } = self;
+        const returnObj = { latestMatch: latestOuterMatch };
         if (closestContainer === null || closestContainer === undefined) {
-            self.latestMatch = latestOuterMatch;
+            return returnObj;
         }
         else {
             if (closestContainer.contains(latestOuterMatch)) {
-                self.latestMatch = latestOuterMatch;
+                return returnObj;
             }
         }
     }
@@ -59,7 +63,7 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
     sym = Symbol();
 }
 const tagName = 'css-observe';
-const CssObserve = define({
+const CssObserve = (new CE()).def({
     config: {
         tagName: tagName,
         propDefaults: {
@@ -70,30 +74,31 @@ const CssObserve = define({
                 type: 'String'
             },
             latestMatch: {
-                notify: { viaCustEvt: true }
+                notify: { dispatch: true }
             },
             disabled: {
                 notify: { toggleTo: 'enabled' }
             }
         },
-        actions: [
-            {
-                do: 'linkClosestContainer',
-                upon: ['withinClosest']
-            }, {
-                do: 'linkInsertListener',
+        actions: {
+            linkClosestContainer: {
+                upon: ['withinClosest'],
+                merge: true,
+            },
+            linkInsertListener: {
                 upon: ['enabled', 'observe', 'selector', 'isC'],
                 riff: '"',
-            }, {
-                do: 'linkLatestMatch',
+            },
+            linkLatestMatch: {
                 upon: ['latestOuterMatch', 'closestContainer'],
-                riff: ['latestOuterMatch']
-            }, {
-                do: 'linkClonedTemplate',
+                riff: ['latestOuterMatch'],
+                merge: true
+            },
+            linkClonedTemplate: {
                 upon: ['enabled', 'clone', 'latestMatch'],
                 riff: '"'
             }
-        ],
+        },
         style: {
             display: 'none'
         }

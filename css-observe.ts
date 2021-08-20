@@ -1,12 +1,12 @@
 import {CssObserveProps} from './types.js';
 import {observeCssSelector} from 'trans-render/lib/mixins/observeCssSelector.js';
 export {CssObserveProps as ICssObserve} from './types.js';
-import {PropInfo, define} from 'trans-render/lib/define.js';
+import {PropInfo, CE} from 'trans-render/lib/CE.js';
 import {INotifyPropInfo, NotifyMixin} from 'trans-render/lib/mixins/notify.js';
 
 export class CssObserveCore extends observeCssSelector(HTMLElement){
 
-    linkClosestContainer(self: cc){
+    linkClosestContainer(self: this){
         const {withinClosest} = self;
         if(withinClosest === undefined){
             return null;
@@ -19,7 +19,7 @@ export class CssObserveCore extends observeCssSelector(HTMLElement){
             }
         }
     }
-    linkInsertListener(self: cc){
+    linkInsertListener(self: this){
         const {
             enabled, observe, selector, isC, customStyles, 
             addCSSListener} = self;
@@ -31,7 +31,7 @@ export class CssObserveCore extends observeCssSelector(HTMLElement){
         const boundAddCssListener = addCSSListener.bind(this);
         boundAddCssListener(self.id, selector!, this.insertListener, customStyles);
     }
-    linkLatestMatch(self: cc){
+    linkLatestMatch(self: this){
         const {latestOuterMatch, closestContainer} =  self;
         const returnObj: pcc = {latestMatch: latestOuterMatch};
         if(closestContainer === null || closestContainer === undefined) {
@@ -53,7 +53,7 @@ export class CssObserveCore extends observeCssSelector(HTMLElement){
         }
     }
 
-    linkClonedTemplate(self: cc){
+    linkClonedTemplate(self: this){
         const {disabled, clone, latestMatch, sym} = self;
         const templ = self.querySelector('template');
         const parent = self.parentElement;
@@ -74,7 +74,7 @@ type pcc = Partial<CssObserveCore>;
 const tagName = 'css-observe';
 export interface CssObserveCore extends CssObserveProps, INotifyPropInfo{}
 
-const CssObserve = define<CssObserveCore, INotifyPropInfo>({
+const CssObserve = (new CE<CssObserveCore, INotifyPropInfo>()).def({
     config:{
         tagName: tagName,
         propDefaults: {
@@ -85,32 +85,31 @@ const CssObserve = define<CssObserveCore, INotifyPropInfo>({
                 type: 'String'
             },
             latestMatch:{
-                notify: {viaCustEvt: true}
+                notify: {dispatch: true}
             },
             disabled:{
                 notify: {toggleTo: 'enabled'}
             }
         },
-        actions:[
-            {
-                do: 'linkClosestContainer',
+        actions:{
+            linkClosestContainer: {
                 upon: ['withinClosest'],
                 merge: true,
-            },{
-                do: 'linkInsertListener',
+            },
+            linkInsertListener: {
                 upon: ['enabled', 'observe', 'selector', 'isC'],
                 riff: '"',
-            },{
-                do: 'linkLatestMatch',
+            },
+            linkLatestMatch: {
                 upon: ['latestOuterMatch', 'closestContainer'],
                 riff: ['latestOuterMatch'],
                 merge: true
-            },{
-                do: 'linkClonedTemplate',
+            },
+            linkClonedTemplate: {
                 upon: ['enabled', 'clone', 'latestMatch'],
                 riff: '"'
             }
-        ],
+        },
         style:{
             display: 'none'
         }
