@@ -83,8 +83,8 @@ export const CssObserve = (new CE()).def({
                 ifAllOf: ['enabled', 'observe', 'selector', 'isC'],
             },
             linkLatestMatch: {
-                ifAnyOf: ['latestOuterMatch', 'closestContainer'],
                 ifAllOf: ['latestOuterMatch'],
+                andAlsoActIfKeyIn: ['latestOuterMatch', 'closestContainer'],
             },
             linkClonedTemplate: {
                 ifAllOf: ['enabled', 'clone', 'latestMatch'],

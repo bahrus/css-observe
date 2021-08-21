@@ -95,8 +95,9 @@ export const CssObserve = (new CE<CssObserveCore, INotifyPropInfo, CSSObserveAct
                 ifAllOf: ['enabled', 'observe', 'selector', 'isC'],
             },
             linkLatestMatch: {
-                ifAnyOf: ['latestOuterMatch', 'closestContainer'],
                 ifAllOf: ['latestOuterMatch'],
+                andAlsoActIfKeyIn: ['latestOuterMatch', 'closestContainer'],
+                
             },
             linkClonedTemplate: {
                 ifAllOf: ['enabled', 'clone', 'latestMatch'],
