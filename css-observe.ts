@@ -1,22 +1,18 @@
-import {CssObserveProps} from './types.js';
+import {CSSObserveActions, CssObserveProps} from './types.js';
 import {observeCssSelector} from 'trans-render/lib/mixins/observeCssSelector.js';
 export {CssObserveProps as ICssObserve} from './types.js';
 import {PropInfo, CE} from 'trans-render/lib/CE.js';
 import {INotifyPropInfo, NotifyMixin} from 'trans-render/lib/mixins/notify.js';
 
-export class CssObserveCore extends observeCssSelector(HTMLElement){
+export class CssObserveCore extends observeCssSelector(HTMLElement) implements CSSObserveActions{
 
     linkClosestContainer(self: this){
         const {withinClosest} = self;
-        if(withinClosest === undefined){
-            return null;
+        const closestContainer = self.closest(withinClosest!);
+        if(closestContainer === null){
+            console.warn("Could not locate closest container.");
         }else{
-            const closestContainer = self.closest(withinClosest);
-            if(closestContainer === null){
-                console.warn("Could not locate closest container.");
-            }else{
-                return {closestContainer} as pcc;
-            }
+            return {closestContainer} as pcc;
         }
     }
     linkInsertListener(self: this){
@@ -74,7 +70,7 @@ type pcc = Partial<CssObserveCore>;
 const tagName = 'css-observe';
 export interface CssObserveCore extends CssObserveProps, INotifyPropInfo{}
 
-export const CssObserve = (new CE<CssObserveCore, INotifyPropInfo>()).def({
+export const CssObserve = (new CE<CssObserveCore, INotifyPropInfo, CSSObserveActions>()).def({
     config:{
         tagName: tagName,
         propDefaults: {
@@ -93,21 +89,17 @@ export const CssObserve = (new CE<CssObserveCore, INotifyPropInfo>()).def({
         },
         actions:{
             linkClosestContainer: {
-                upon: ['withinClosest'],
-                merge: true,
+                ifAllOf: ['withinClosest'],
             },
             linkInsertListener: {
-                upon: ['enabled', 'observe', 'selector', 'isC'],
-                riff: '"',
+                ifAllOf: ['enabled', 'observe', 'selector', 'isC'],
             },
             linkLatestMatch: {
-                upon: ['latestOuterMatch', 'closestContainer'],
-                riff: ['latestOuterMatch'],
-                merge: true
+                ifAnyOf: ['latestOuterMatch', 'closestContainer'],
+                ifAllOf: ['latestOuterMatch'],
             },
             linkClonedTemplate: {
-                upon: ['enabled', 'clone', 'latestMatch'],
-                riff: '"'
+                ifAllOf: ['enabled', 'clone', 'latestMatch'],
             }
         },
         style:{

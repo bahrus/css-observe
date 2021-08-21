@@ -1,4 +1,3 @@
-import {IHydrate} from 'trans-render/types.d.js';
 /**
  * @additionalProperties {
  *  "elementName": "css-observe"
@@ -52,4 +51,12 @@ export interface CssObserveProps{
 
     latestOuterMatch?: Element;
     closestContainer?: Element | null;
+}
+
+type pcop = Partial<CssObserveProps>;
+export interface CSSObserveActions{
+    linkClosestContainer(self: this): pcop| null | undefined;
+    linkInsertListener(self: this): void;
+    linkLatestMatch(self: this): pcop | undefined;
+    linkClonedTemplate(self: this): void;
 }

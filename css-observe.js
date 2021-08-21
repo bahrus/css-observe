@@ -4,17 +4,12 @@ import { NotifyMixin } from 'trans-render/lib/mixins/notify.js';
 export class CssObserveCore extends observeCssSelector(HTMLElement) {
     linkClosestContainer(self) {
         const { withinClosest } = self;
-        if (withinClosest === undefined) {
-            return null;
+        const closestContainer = self.closest(withinClosest);
+        if (closestContainer === null) {
+            console.warn("Could not locate closest container.");
         }
         else {
-            const closestContainer = self.closest(withinClosest);
-            if (closestContainer === null) {
-                console.warn("Could not locate closest container.");
-            }
-            else {
-                return { closestContainer };
-            }
+            return { closestContainer };
         }
     }
     linkInsertListener(self) {
@@ -82,21 +77,17 @@ export const CssObserve = (new CE()).def({
         },
         actions: {
             linkClosestContainer: {
-                upon: ['withinClosest'],
-                merge: true,
+                ifAllOf: ['withinClosest'],
             },
             linkInsertListener: {
-                upon: ['enabled', 'observe', 'selector', 'isC'],
-                riff: '"',
+                ifAllOf: ['enabled', 'observe', 'selector', 'isC'],
             },
             linkLatestMatch: {
-                upon: ['latestOuterMatch', 'closestContainer'],
-                riff: ['latestOuterMatch'],
-                merge: true
+                ifAnyOf: ['latestOuterMatch', 'closestContainer'],
+                ifAllOf: ['latestOuterMatch'],
             },
             linkClonedTemplate: {
-                upon: ['enabled', 'clone', 'latestMatch'],
-                riff: '"'
+                ifAllOf: ['enabled', 'clone', 'latestMatch'],
             }
         },
         style: {
