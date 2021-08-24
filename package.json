@@ -13,10 +13,10 @@
     "bundle": "rollup --config"
   },
   "dependencies": {
-    "trans-render": "0.0.332"
+    "trans-render": "0.0.339"
   },
   "devDependencies": {
-    "on-to-me": "0.0.28",
+    "on-to-me": "0.0.35",
     "xtal-test": "0.0.51",
     "@custom-elements-manifest/analyzer": "0.4.17"
   },

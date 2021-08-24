@@ -2,7 +2,7 @@ import { observeCssSelector } from 'trans-render/lib/mixins/observeCssSelector.j
 import { CE } from 'trans-render/lib/CE.js';
 import { NotifyMixin } from 'trans-render/lib/mixins/notify.js';
 export class CssObserveCore extends observeCssSelector(HTMLElement) {
-    linkClosestContainer(self) {
+    locateClosestContainer(self) {
         const { withinClosest } = self;
         const closestContainer = self.closest(withinClosest);
         if (closestContainer === null) {
@@ -12,17 +12,16 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
             return { closestContainer };
         }
     }
-    linkInsertListener(self) {
+    addCssListener(self) {
         const { enabled, observe, selector, isC, customStyles, addCSSListener } = self;
         this.disconnect();
-        //if(disabled || !observe || selector === undefined) return;
         if (self.id === '') {
             self.id = tagName + (new Date()).valueOf();
         }
         const boundAddCssListener = addCSSListener.bind(this);
         boundAddCssListener(self.id, selector, this.insertListener, customStyles);
     }
-    linkLatestMatch(self) {
+    declareLatestMatch(self) {
         const { latestOuterMatch, closestContainer } = self;
         const returnObj = { latestMatch: latestOuterMatch };
         if (closestContainer === null || closestContainer === undefined) {
@@ -76,15 +75,15 @@ export const CssObserve = (new CE()).def({
             }
         },
         actions: {
-            linkClosestContainer: {
+            locateClosestContainer: {
                 ifAllOf: ['withinClosest'],
             },
-            linkInsertListener: {
+            addCssListener: {
                 ifAllOf: ['enabled', 'observe', 'selector', 'isC'],
             },
-            linkLatestMatch: {
+            declareLatestMatch: {
                 ifAllOf: ['latestOuterMatch'],
-                andAlsoActIfKeyIn: ['latestOuterMatch', 'closestContainer'],
+                andAlsoActIfKeyIn: ['closestContainer'],
             },
             linkClonedTemplate: {
                 ifAllOf: ['enabled', 'clone', 'latestMatch'],

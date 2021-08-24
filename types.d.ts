@@ -55,8 +55,8 @@ export interface CssObserveProps{
 
 type pcop = Partial<CssObserveProps>;
 export interface CSSObserveActions{
-    linkClosestContainer(self: this): pcop| null | undefined;
-    linkInsertListener(self: this): void;
-    linkLatestMatch(self: this): pcop | undefined;
+    locateClosestContainer(self: this): pcop| null | undefined;
+    addCssListener(self: this): void;
+    declareLatestMatch(self: this): pcop | undefined;
     linkClonedTemplate(self: this): void;
 }

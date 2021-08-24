@@ -6,7 +6,7 @@ import {INotifyPropInfo, NotifyMixin} from 'trans-render/lib/mixins/notify.js';
 
 export class CssObserveCore extends observeCssSelector(HTMLElement) implements CSSObserveActions{
 
-    linkClosestContainer(self: this){
+    locateClosestContainer(self: this){
         const {withinClosest} = self;
         const closestContainer = self.closest(withinClosest!);
         if(closestContainer === null){
@@ -15,19 +15,18 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) implements C
             return {closestContainer} as pcc;
         }
     }
-    linkInsertListener(self: this){
+    addCssListener(self: this){
         const {
             enabled, observe, selector, isC, customStyles, 
             addCSSListener} = self;
         this.disconnect();
-        //if(disabled || !observe || selector === undefined) return;
         if(self.id === ''){
             self.id = tagName + (new Date()).valueOf();
         }
         const boundAddCssListener = addCSSListener.bind(this);
         boundAddCssListener(self.id, selector!, this.insertListener, customStyles);
     }
-    linkLatestMatch(self: this){
+    declareLatestMatch(self: this){
         const {latestOuterMatch, closestContainer} =  self;
         const returnObj: pcc = {latestMatch: latestOuterMatch};
         if(closestContainer === null || closestContainer === undefined) {
@@ -70,7 +69,7 @@ type pcc = Partial<CssObserveCore>;
 const tagName = 'css-observe';
 export interface CssObserveCore extends CssObserveProps, INotifyPropInfo{}
 
-export const CssObserve = (new CE<CssObserveCore, INotifyPropInfo, CSSObserveActions>()).def({
+export const CssObserve = (new CE<CssObserveCore, CSSObserveActions, INotifyPropInfo>()).def({
     config:{
         tagName: tagName,
         propDefaults: {
@@ -88,15 +87,15 @@ export const CssObserve = (new CE<CssObserveCore, INotifyPropInfo, CSSObserveAct
             }
         },
         actions:{
-            linkClosestContainer: {
+            locateClosestContainer: {
                 ifAllOf: ['withinClosest'],
             },
-            linkInsertListener: {
+            addCssListener: {
                 ifAllOf: ['enabled', 'observe', 'selector', 'isC'],
             },
-            linkLatestMatch: {
+            declareLatestMatch: {
                 ifAllOf: ['latestOuterMatch'],
-                andAlsoActIfKeyIn: ['latestOuterMatch', 'closestContainer'],
+                andAlsoActIfKeyIn: ['closestContainer'],
                 
             },
             linkClonedTemplate: {
