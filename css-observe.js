@@ -2,9 +2,8 @@ import { observeCssSelector } from 'trans-render/lib/mixins/observeCssSelector.j
 import { CE } from 'trans-render/lib/CE.js';
 import { NotifyMixin } from 'trans-render/lib/mixins/notify.js';
 export class CssObserveCore extends observeCssSelector(HTMLElement) {
-    locateClosestContainer(self) {
-        const { withinClosest } = self;
-        const closestContainer = self.closest(withinClosest);
+    locateClosestContainer({ withinClosest }) {
+        const closestContainer = this.closest(withinClosest);
         if (closestContainer === null) {
             console.warn("Could not locate closest container.");
         }
@@ -12,17 +11,15 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
             return { closestContainer };
         }
     }
-    addCssListener(self) {
-        const { enabled, observe, selector, isC, customStyles, addCSSListener } = self;
+    addCssListener({ enabled, observe, selector, isC, customStyles, addCSSListener }) {
         this.disconnect();
-        if (self.id === '') {
-            self.id = tagName + (new Date()).valueOf();
+        if (this.id === '') {
+            this.id = tagName + (new Date()).valueOf();
         }
         const boundAddCssListener = addCSSListener.bind(this);
-        boundAddCssListener(self.id, selector, this.insertListener, customStyles);
+        boundAddCssListener(this.id, selector, this.insertListener, customStyles);
     }
-    declareLatestMatch(self) {
-        const { latestOuterMatch, closestContainer } = self;
+    declareLatestMatch({ latestOuterMatch, closestContainer }) {
         const returnObj = { latestMatch: latestOuterMatch };
         if (closestContainer === null || closestContainer === undefined) {
             return returnObj;
@@ -41,10 +38,9 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
             }, 0);
         }
     }
-    linkClonedTemplate(self) {
-        const { disabled, clone, latestMatch, sym } = self;
-        const templ = self.querySelector('template');
-        const parent = self.parentElement;
+    linkClonedTemplate({ disabled, clone, latestMatch, sym }) {
+        const templ = this.querySelector('template');
+        const parent = this.parentElement;
         if (parent !== null && (!parent[sym]) && templ !== null) {
             parent.appendChild(templ.content.cloneNode(true));
             parent[sym] = true;

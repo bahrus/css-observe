@@ -13,12 +13,12 @@
     "bundle": "rollup --config"
   },
   "dependencies": {
-    "trans-render": "0.0.339"
+    "trans-render": "0.0.369"
   },
   "devDependencies": {
     "on-to-me": "0.0.35",
     "xtal-test": "0.0.51",
-    "@custom-elements-manifest/analyzer": "0.4.17"
+    "@custom-elements-manifest/analyzer": "0.5.3"
   },
   "repository": {
     "type": "git",

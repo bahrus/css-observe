@@ -1,33 +1,28 @@
 import {CSSObserveActions, CssObserveProps} from './types.js';
 import {observeCssSelector} from 'trans-render/lib/mixins/observeCssSelector.js';
-export {CssObserveProps as ICssObserve} from './types.js';
+export {CssObserveProps} from './types.js';
 import {PropInfo, CE} from 'trans-render/lib/CE.js';
 import {INotifyPropInfo, NotifyMixin} from 'trans-render/lib/mixins/notify.js';
 
 export class CssObserveCore extends observeCssSelector(HTMLElement) implements CSSObserveActions{
 
-    locateClosestContainer(self: this){
-        const {withinClosest} = self;
-        const closestContainer = self.closest(withinClosest!);
+    locateClosestContainer({withinClosest}: this){
+        const closestContainer = this.closest(withinClosest!);
         if(closestContainer === null){
             console.warn("Could not locate closest container.");
         }else{
             return {closestContainer} as pcc;
         }
     }
-    addCssListener(self: this){
-        const {
-            enabled, observe, selector, isC, customStyles, 
-            addCSSListener} = self;
+    addCssListener({enabled, observe, selector, isC, customStyles, addCSSListener}: this){
         this.disconnect();
-        if(self.id === ''){
-            self.id = tagName + (new Date()).valueOf();
+        if(this.id === ''){
+            this.id = tagName + (new Date()).valueOf();
         }
         const boundAddCssListener = addCSSListener.bind(this);
-        boundAddCssListener(self.id, selector!, this.insertListener, customStyles);
+        boundAddCssListener(this.id, selector!, this.insertListener, customStyles);
     }
-    declareLatestMatch(self: this){
-        const {latestOuterMatch, closestContainer} =  self;
+    declareLatestMatch({latestOuterMatch, closestContainer}: this){
         const returnObj: pcc = {latestMatch: latestOuterMatch};
         if(closestContainer === null || closestContainer === undefined) {
             return returnObj;
@@ -48,10 +43,9 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) implements C
         }
     }
 
-    linkClonedTemplate(self: this){
-        const {disabled, clone, latestMatch, sym} = self;
-        const templ = self.querySelector('template');
-        const parent = self.parentElement;
+    linkClonedTemplate({disabled, clone, latestMatch, sym}: this){
+        const templ = this.querySelector('template');
+        const parent = this.parentElement;
         if(parent !== null && (!(<any>parent)[sym]) && templ !== null) {
             parent.appendChild(templ.content.cloneNode(true));
             (<any>parent)[sym] = true;
