@@ -2,7 +2,7 @@ import {CSSObserveActions, CssObserveProps} from './types.js';
 import {observeCssSelector} from 'trans-render/lib/mixins/observeCssSelector.js';
 export {CssObserveProps} from './types.js';
 import {PropInfo, CE} from 'trans-render/lib/CE.js';
-import {INotifyPropInfo, NotifyMixin} from 'trans-render/lib/mixins/notify.js';
+import {INotifyMixin, INotifyPropInfo, NotifyMixin} from 'trans-render/lib/mixins/notify.js';
 
 export class CssObserveCore extends observeCssSelector(HTMLElement) implements CSSObserveActions{
 
@@ -63,12 +63,13 @@ type pcc = Partial<CssObserveCore>;
 const tagName = 'css-observe';
 export interface CssObserveCore extends CssObserveProps, INotifyPropInfo{}
 
-export const CssObserve = (new CE<CssObserveCore, CSSObserveActions, INotifyPropInfo>()).def({
+export const CssObserve = (new CE<CssObserveCore, CSSObserveActions & INotifyMixin, INotifyPropInfo>()).def({
     config:{
         tagName: tagName,
         propDefaults: {
             disabled: false, enabled: true, observe: false, isC: true, clone: false,
         },
+        propChangeMethod: 'onPropChange',
         propInfo:{
             selector: {
                 type: 'String'

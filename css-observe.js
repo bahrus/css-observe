@@ -59,6 +59,7 @@ export const CssObserve = (new CE()).def({
         propDefaults: {
             disabled: false, enabled: true, observe: false, isC: true, clone: false,
         },
+        propChangeMethod: 'onPropChange',
         propInfo: {
             selector: {
                 type: 'String'
