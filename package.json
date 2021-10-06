@@ -13,7 +13,7 @@
     "bundle": "rollup --config"
   },
   "dependencies": {
-    "trans-render": "0.0.414"
+    "trans-render": "0.0.418"
   },
   "devDependencies": {
     "on-to-me": "0.0.49",
