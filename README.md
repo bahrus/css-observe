@@ -6,22 +6,39 @@
 
 <img src="https://badgen.net/bundlephobia/minzip/css-observe@0.0.48">
 
-# css-observe
-Fire a custom event whenever an element matching a specified selector is added to the (shadow dom) realm in which the instance is added.  Optionally, clone a template inside.
+# css-observe [WIP]
+
+css-observe is a "web component as a service" that specializes in watching for DOM elements matching a CSS selector appearing within the same Shadow DOM realm.  When such an element is spotted, css observe can perform up to four distinct actions:
+
+1.  Fire an event.
+2.  Perform a DTR transform on the newly discovered element ("target"). 
+3.  Perform a DTR transform on the host's (shadow) DOM.
+4.  Perform an action contained within a script tag contained within.  
+
 
 ## [API Reference](https://bahrus.github.io/wc-info/cdn-base.html?npmPackage=css-observe)
 
 
 ```html
-<script type="module" src="https://cdn.pika.dev/css-observe"></script>
 <div>
-    <script type="module" src="https://cdn.pika.dev/css-observe"></script>
-    <css-observe observe selector="div[test]" clone>
-        <template>Found it</template>
+    <css-observe selector="div[test]" data-name="Clive" options='{
+        "targetTransform": {
+            "span": "dataset.name"
+        },
+        "hostTransform":{
+            "section": [{},{},{},"<span>found it</span>"]
+        }
+    }'>
+        <script nomodule be-exportable>
+            export const action = (target) => {
+                target.setAttribute('I am here', '');
+            }
+        </script>
     </css-observe>
     <div test>
-        I am here
+        I am here, <span></span>
     </div>
+    <section></section>
 </div>
 ```
 
