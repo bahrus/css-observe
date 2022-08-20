@@ -27,9 +27,9 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) implements C
         } as P;
     }
 
-    async watchForScript({}: this){
+    async watchForScript({scriptRef}: this){
         const {beBeckoned} = await import('be-exportable/beBeckoned.js');
-        beBeckoned({container: this}, (exports) => {
+        beBeckoned({container: this.getRootNode() as Document, id: scriptRef}, (exports) => {
             this.action = exports.action;
         });
     }
@@ -80,6 +80,7 @@ const ce = new XE<CssObserveProps, CSSObserveActions>({
             enabled: true, 
             observe: false, 
             isC: true,
+            scriptRef: '',
         },
         propInfo:{
             selector: {
@@ -104,7 +105,7 @@ const ce = new XE<CssObserveProps, CSSObserveActions>({
                 ifKeyIn: ['closestContainer'],
             },
             watchForScript: {
-                ifAllOf: ['isC'],
+                ifAllOf: ['scriptRef'],
             },
             doActionOnExistingMatches:{
                 ifAllOf: ['action', 'allMatches']
@@ -113,10 +114,9 @@ const ce = new XE<CssObserveProps, CSSObserveActions>({
                 ifAllOf: ['action', 'latestMatch']
             }
         },
-        //can't hide because need to detect exportable script
-        // style:{
-        //     display: 'none'
-        // }
+        style:{
+            display: 'none'
+        }
 
     },
     superclass: CssObserveCore,

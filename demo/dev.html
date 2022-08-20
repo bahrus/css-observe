@@ -26,13 +26,13 @@
 <body>
     <div>
 
-        <css-observe disabled id="myObserver" observe selector="div[test]">
-            <script nomodule be-exportable type=module>
-                export const action = (el) => {
-                    console.log({el});
-                }
-            </script>
-        </css-observe>
+        <css-observe observe selector="div[test]" script-ref=my-script ></css-observe>
+
+        <script id='my-script' nomodule be-exportable type=module>
+            export const action = (el) => {
+                console.log({el});
+            }
+        </script>
         <div be-observant='{
             "textContent": {
                 "observe": "css-observe",

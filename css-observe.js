@@ -22,9 +22,9 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
             allMatches: []
         };
     }
-    async watchForScript({}) {
+    async watchForScript({ scriptRef }) {
         const { beBeckoned } = await import('be-exportable/beBeckoned.js');
-        beBeckoned({ container: this }, (exports) => {
+        beBeckoned({ container: this.getRootNode(), id: scriptRef }, (exports) => {
             this.action = exports.action;
         });
     }
@@ -68,6 +68,7 @@ const ce = new XE({
             enabled: true,
             observe: false,
             isC: true,
+            scriptRef: '',
         },
         propInfo: {
             selector: {
@@ -92,7 +93,7 @@ const ce = new XE({
                 ifKeyIn: ['closestContainer'],
             },
             watchForScript: {
-                ifAllOf: ['isC'],
+                ifAllOf: ['scriptRef'],
             },
             doActionOnExistingMatches: {
                 ifAllOf: ['action', 'allMatches']
@@ -101,10 +102,9 @@ const ce = new XE({
                 ifAllOf: ['action', 'latestMatch']
             }
         },
-        //can't hide because need to detect exportable script
-        // style:{
-        //     display: 'none'
-        // }
+        style: {
+            display: 'none'
+        }
     },
     superclass: CssObserveCore,
 });

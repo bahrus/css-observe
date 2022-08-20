@@ -42,6 +42,11 @@ export interface CssObserveEndUserProps{
     latestOuterMatch?: Element;
     closestContainer?: Element | null;
 
+    /**
+     * ID of script reference in same ShadowDOM realm
+     */
+    scriptRef?: string;
+
     
 }
 
