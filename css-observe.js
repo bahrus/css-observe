@@ -101,9 +101,10 @@ const ce = new XE({
                 ifAllOf: ['action', 'latestMatch']
             }
         },
-        style: {
-            display: 'none'
-        }
+        //can't hide because need to detect exportable script
+        // style:{
+        //     display: 'none'
+        // }
     },
     superclass: CssObserveCore,
 });

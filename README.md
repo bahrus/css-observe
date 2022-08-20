@@ -29,7 +29,7 @@ css-observe is a "web component as a service" that specializes in watching for D
             "section": [{},{},{},"<span>found it</span>"]
         }
     }'>
-        <script nomodule be-exportable>
+        <script nomodule be-exporting>
             export const action = (target) => {
                 target.setAttribute('I am here', '');
             }

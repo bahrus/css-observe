@@ -5,23 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-</head>
-<body>
-    <div>
-
-        <css-observe disabled id="myObserver" observe selector="div[test]"></css-observe>
-        <div be-observant='{
-            "textContent": {
-                "observe": "css-observe",
-                "on": "latest-match-changed",
-                "vft": "latestMatch.deref|.dataset.message"
-            }
-        }'></div>
-        <hr>
-        <div test data-message="hello">
-            I am here
-        </div>
-        <script type=importmap>
+    <script type=importmap>
         {
             "imports": {
                 "trans-render/": "../node_modules/trans-render/",
@@ -36,8 +20,31 @@
         <script type=module>
             import '../css-observe.js';
             import 'be-observant/be-observant.js';
+            import 'be-exportable/be-exportable.js';
         </script>
-        <script type="module" src="https://unpkg.com/p-et-alia@0.0.47/p-d.js?module"></script>
+</head>
+<body>
+    <div>
+
+        <css-observe disabled id="myObserver" observe selector="div[test]">
+            <script nomodule be-exportable type=module>
+                export const action = (el) => {
+                    console.log({el});
+                }
+            </script>
+        </css-observe>
+        <div be-observant='{
+            "textContent": {
+                "observe": "css-observe",
+                "on": "latest-match-changed",
+                "vft": "latestMatch.deref|.dataset.message"
+            }
+        }'></div>
+        <hr>
+        <div test data-message="hello">
+            I am here
+        </div>
+
     </div>
 </body>
 </html>

@@ -113,9 +113,11 @@ const ce = new XE<CssObserveProps, CSSObserveActions>({
                 ifAllOf: ['action', 'latestMatch']
             }
         },
-        style:{
-            display: 'none'
-        }
+        //can't hide because need to detect exportable script
+        // style:{
+        //     display: 'none'
+        // }
+
     },
     superclass: CssObserveCore,
 });
