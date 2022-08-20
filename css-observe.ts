@@ -6,13 +6,13 @@ import {XE} from 'xtal-element/src/XE.js';
 import {INotifyMixin, INotifyPropInfo, NotifyMixin} from 'trans-render/lib/mixins/notify.js';
 
 export class CssObserveCore extends observeCssSelector(HTMLElement) implements CSSObserveActions{
-
+    
     locateClosestContainer({withinClosest}: this){
         const closestContainer = this.closest(withinClosest!);
         if(closestContainer === null){
             console.warn("Could not locate closest container.");
         }else{
-            return {closestContainer} as pcc;
+            return {closestContainer} as P;
         }
     }
     addCssListener({enabled, observe, selector, isC, customStyles, addCSSListener}: this){
@@ -22,15 +22,22 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) implements C
         }
         const boundAddCssListener = addCSSListener.bind(this);
         boundAddCssListener(this.id, selector!, this.insertListener, customStyles);
+        return {
+            allMatches: []
+        } as P;
     }
-    declareLatestMatch({latestOuterMatch, closestContainer}: this){
-        const returnObj: pcc = {latestMatch: latestOuterMatch};
-        if(closestContainer === null || closestContainer === undefined) {
-            return returnObj;
-        }else{
-            if(closestContainer.contains(latestOuterMatch!)){
-                return returnObj;
-            }
+
+    async watchForScript({}: this){
+        const {beBeckoned} = await import('be-exportable/beBeckoned.js');
+        beBeckoned({container: this}, (exports) => {
+            this.action = exports.action;
+        });
+    }
+    declareLatestMatch({latestOuterMatch, closestContainer, allMatches}: this){
+        if(!closestContainer || closestContainer.contains(latestOuterMatch!)) {
+            const latestMatch = new WeakRef(latestOuterMatch!);
+            allMatches!.push(latestMatch!)
+            return {latestMatch};
         }
     }
 
@@ -44,23 +51,24 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) implements C
         }
     }
 
-    linkClonedTemplate({disabled, clone, latestMatch, sym}: this){
-        const templ = this.querySelector('template');
-        const parent = this.parentElement;
-        if(parent !== null && (!(<any>parent)[sym]) && templ !== null) {
-            parent.appendChild(templ.content.cloneNode(true));
-            (<any>parent)[sym] = true;
+    doActionOnExistingMatches({action, allMatches}: this): void {
+        for(const match of allMatches!){
+            const el = match.deref();
+            if(el === undefined) {
+                continue;
+            }
+            action(el);
         }
     }
 
-    /**
-     * @private
-     * Needs to be unique symbol per instance
-     */
-    sym = Symbol();  
+    doActionOnLatestMatch({latestMatch, action}: this): void {
+        const el = latestMatch!.deref();
+        if(el === undefined) return;
+        action(el);
+    }
 }
 type cc = CssObserveCore;
-type pcc = Partial<CssObserveCore>;
+type P = Partial<CssObserveCore>;
 const tagName = 'css-observe';
 export interface CssObserveCore extends CssObserveProps, INotifyPropInfo{}
 
@@ -68,7 +76,10 @@ const ce = new XE<CssObserveProps, CSSObserveActions>({
     config:{
         tagName,
         propDefaults: {
-            disabled: false, enabled: true, observe: false, isC: true, clone: false,
+            disabled: false, 
+            enabled: true, 
+            observe: false, 
+            isC: true,
         },
         propInfo:{
             selector: {
@@ -91,10 +102,15 @@ const ce = new XE<CssObserveProps, CSSObserveActions>({
             declareLatestMatch: {
                 ifAllOf: ['latestOuterMatch'],
                 ifKeyIn: ['closestContainer'],
-                
             },
-            linkClonedTemplate: {
-                ifAllOf: ['enabled', 'clone', 'latestMatch'],
+            watchForScript: {
+                ifAllOf: ['isC'],
+            },
+            doActionOnExistingMatches:{
+                ifAllOf: ['action', 'allMatches']
+            },
+            doActionOnLatestMatch:{
+                ifAllOf: ['action', 'latestMatch']
             }
         },
         style:{
@@ -104,14 +120,6 @@ const ce = new XE<CssObserveProps, CSSObserveActions>({
     superclass: CssObserveCore,
 });
 
-
-
-// export const CssObserve = (new CE<CssObserveCore, CSSObserveActions & INotifyMixin, INotifyPropInfo>()).def({
-//     config:{
-//         tagName: tagName,
-
-//     mixins: [NotifyMixin],
-// }) as {new(): cc};
 
 declare global {
     interface HTMLElementTagNameMap {

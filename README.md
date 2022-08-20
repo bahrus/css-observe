@@ -8,11 +8,11 @@
 
 # css-observe [WIP]
 
-css-observe is a "web component as a service" that specializes in watching for DOM elements matching a CSS selector appearing within the same Shadow DOM realm.  When such an element is spotted, css observe can perform up to four distinct actions:
+css-observe is a "web component as a service" that specializes in watching for DOM elements matching a CSS selector appearing within the same Shadow DOM realm (or within a specified "closest" selector).  When such an element is spotted, css observe can perform up to four distinct actions:
 
 1.  Fire an event.
 2.  Perform a DTR transform on the newly discovered element ("target"). 
-3.  Perform a DTR transform on the host's (shadow) DOM.
+3.  Perform a DTR transform on the host's shadow DOM (or document when outside any shadow DOM).
 4.  Perform an action contained within a script tag contained within.  
 
 
@@ -21,7 +21,7 @@ css-observe is a "web component as a service" that specializes in watching for D
 
 ```html
 <div>
-    <css-observe selector="div[test]" data-name="Clive" options='{
+    <css-observe observe selector="div[test]" data-name="Clive" options='{
         "targetTransform": {
             "span": "dataset.name"
         },
@@ -34,6 +34,7 @@ css-observe is a "web component as a service" that specializes in watching for D
                 target.setAttribute('I am here', '');
             }
         </script>
+        <template be-a-beacon></template>
     </css-observe>
     <div test>
         I am here, <span></span>

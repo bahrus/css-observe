@@ -3,7 +3,7 @@
  *  "elementName": "css-observe"
  * } 
  */
-export interface CssObserveProps{
+export interface CssObserveEndUserProps{
     /**
      * CSS selector to monitor for.
      * @attr
@@ -16,18 +16,6 @@ export interface CssObserveProps{
      */
     observe?: boolean;
 
-    
-    /**
-     * Clone template inside when css match is found.
-     * @attr
-     */
-    clone?:  boolean;
-
-    /**
-     * @private
-     * Needs to be unique symbol per instance
-     */
-    sym?: Symbol;
 
     /**
      * Insert some associated needed styles.
@@ -43,20 +31,31 @@ export interface CssObserveProps{
     /**
      * Latest Element matching css selector (and within the element specified by within-closest)
      */
-    latestMatch?: EventTarget;
+    latestMatch?: WeakRef<EventTarget>;
+
+    allMatches?: WeakRef<EventTarget>[];
     
     disabled?: boolean;
     enabled?: boolean;
-    isC?: boolean;
+    
 
     latestOuterMatch?: Element;
     closestContainer?: Element | null;
+
+    
 }
 
-type pcop = Partial<CssObserveProps>;
+export interface CssObserveProps extends CssObserveEndUserProps{
+    action?: any;
+    isC?: boolean;
+}
+
+type P = Partial<CssObserveProps>;
 export interface CSSObserveActions{
-    locateClosestContainer(self: this): pcop| null | undefined;
+    locateClosestContainer(self: this): P | null | undefined;
     addCssListener(self: this): void;
-    declareLatestMatch(self: this): pcop | undefined;
-    linkClonedTemplate(self: this): void;
+    declareLatestMatch(self: this): P | undefined;
+    watchForScript(self: this): void;
+    doActionOnExistingMatches(self: this): void;
+    doActionOnLatestMatch(self: this): void;
 }

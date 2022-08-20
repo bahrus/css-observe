@@ -1,6 +1,6 @@
 import { observeCssSelector } from 'trans-render/lib/mixins/observeCssSelector.js';
-import { CE } from 'trans-render/lib/CE.js';
-import { NotifyMixin } from 'trans-render/lib/mixins/notify.js';
+//import {PropInfo, CE} from 'trans-render/lib/CE.js';
+import { XE } from 'xtal-element/src/XE.js';
 export class CssObserveCore extends observeCssSelector(HTMLElement) {
     locateClosestContainer({ withinClosest }) {
         const closestContainer = this.closest(withinClosest);
@@ -18,16 +18,21 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
         }
         const boundAddCssListener = addCSSListener.bind(this);
         boundAddCssListener(this.id, selector, this.insertListener, customStyles);
+        return {
+            allMatches: []
+        };
     }
-    declareLatestMatch({ latestOuterMatch, closestContainer }) {
-        const returnObj = { latestMatch: latestOuterMatch };
-        if (closestContainer === null || closestContainer === undefined) {
-            return returnObj;
-        }
-        else {
-            if (closestContainer.contains(latestOuterMatch)) {
-                return returnObj;
-            }
+    async watchForScript({}) {
+        const { beBeckoned } = await import('be-exportable/beBeckoned.js');
+        beBeckoned({ container: this }, (exports) => {
+            this.action = exports.action;
+        });
+    }
+    declareLatestMatch({ latestOuterMatch, closestContainer, allMatches }) {
+        if (!closestContainer || closestContainer.contains(latestOuterMatch)) {
+            const latestMatch = new WeakRef(latestOuterMatch);
+            allMatches.push(latestMatch);
+            return { latestMatch };
         }
     }
     insertListener(e) {
@@ -38,28 +43,32 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
             }, 0);
         }
     }
-    linkClonedTemplate({ disabled, clone, latestMatch, sym }) {
-        const templ = this.querySelector('template');
-        const parent = this.parentElement;
-        if (parent !== null && (!parent[sym]) && templ !== null) {
-            parent.appendChild(templ.content.cloneNode(true));
-            parent[sym] = true;
+    doActionOnExistingMatches({ action, allMatches }) {
+        for (const match of allMatches) {
+            const el = match.deref();
+            if (el === undefined) {
+                continue;
+            }
+            action(el);
         }
     }
-    /**
-     * @private
-     * Needs to be unique symbol per instance
-     */
-    sym = Symbol();
+    doActionOnLatestMatch({ latestMatch, action }) {
+        const el = latestMatch.deref();
+        if (el === undefined)
+            return;
+        action(el);
+    }
 }
 const tagName = 'css-observe';
-export const CssObserve = (new CE()).def({
+const ce = new XE({
     config: {
-        tagName: tagName,
+        tagName,
         propDefaults: {
-            disabled: false, enabled: true, observe: false, isC: true, clone: false,
+            disabled: false,
+            enabled: true,
+            observe: false,
+            isC: true,
         },
-        propChangeMethod: 'onPropChange',
         propInfo: {
             selector: {
                 type: 'String'
@@ -82,8 +91,14 @@ export const CssObserve = (new CE()).def({
                 ifAllOf: ['latestOuterMatch'],
                 ifKeyIn: ['closestContainer'],
             },
-            linkClonedTemplate: {
-                ifAllOf: ['enabled', 'clone', 'latestMatch'],
+            watchForScript: {
+                ifAllOf: ['isC'],
+            },
+            doActionOnExistingMatches: {
+                ifAllOf: ['action', 'allMatches']
+            },
+            doActionOnLatestMatch: {
+                ifAllOf: ['action', 'latestMatch']
             }
         },
         style: {
@@ -91,5 +106,4 @@ export const CssObserve = (new CE()).def({
         }
     },
     superclass: CssObserveCore,
-    mixins: [NotifyMixin],
 });
