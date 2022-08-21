@@ -23,10 +23,11 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
         };
     }
     async watchForScript({ scriptRef }) {
-        const { beBeckoned } = await import('be-exportable/beBeckoned.js');
-        beBeckoned({ container: this.getRootNode(), id: scriptRef }, (exports) => {
-            this.action = exports.action;
-        });
+        const { importFromScriptRef } = await import('be-exportable/importFromScriptRef.js');
+        const { action } = await importFromScriptRef(this, scriptRef);
+        return {
+            action
+        };
     }
     declareLatestMatch({ latestOuterMatch, closestContainer, allMatches }) {
         if (!closestContainer || closestContainer.contains(latestOuterMatch)) {

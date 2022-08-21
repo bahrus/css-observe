@@ -13,9 +13,9 @@
     "bundle": "rollup --config"
   },
   "dependencies": {
-    "trans-render": "0.0.566",
-    "xtal-element": "0.0.502",
-    "be-exportable": "0.0.24"
+    "trans-render": "0.0.569",
+    "xtal-element": "0.0.511",
+    "be-exportable": "0.0.26"
   },
   "devDependencies": {
     "be-observant": "0.0.131",
