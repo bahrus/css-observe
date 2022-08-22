@@ -1,3 +1,4 @@
+import {Matches, Transformer, RenderContext} from 'trans-render/lib/types';
 /**
  * @additionalProperties {
  *  "elementName": "css-observe"
@@ -47,13 +48,20 @@ export interface CssObserveEndUserProps{
      */
     scriptRef?: string;
 
+    targetTransform?: Matches;
+
+    hostTransform?: Matches;
+
     
 }
 
 export interface CssObserveProps extends CssObserveEndUserProps{
     action?: any;
     isC?: boolean;
+    targetTransformer?: Transformer;
 }
+
+
 
 type P = Partial<CssObserveProps>;
 export interface CSSObserveActions{
@@ -63,4 +71,7 @@ export interface CSSObserveActions{
     watchForScript(self: this): void;
     doActionOnExistingMatches(self: this): void;
     doActionOnLatestMatch(self: this): void;
+    onTargetTransform(self: this): void;
+    doTransformOnExistingMatches(self: this): void;
+    doTransformOnLatestMatch(self: this): void;
 }

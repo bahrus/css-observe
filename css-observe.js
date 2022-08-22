@@ -59,6 +59,30 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
             return;
         action(el);
     }
+    async onTargetTransform({ targetTransform }) {
+        const { DTR } = await import('trans-render/lib/DTR.js');
+        const ctx = {
+            host: this,
+            match: targetTransform
+        };
+        const targetTransformer = new DTR(ctx);
+        return { targetTransformer };
+    }
+    async doTransformOnExistingMatches({ allMatches, targetTransformer }) {
+        for (const match of allMatches) {
+            const el = match.deref();
+            if (el === undefined) {
+                continue;
+            }
+            await targetTransformer.transform(el);
+        }
+    }
+    async doTransformOnLatestMatch({ latestMatch, targetTransformer }) {
+        const el = latestMatch.deref();
+        if (el === undefined)
+            return;
+        await targetTransformer.transform(el);
+    }
 }
 const tagName = 'css-observe';
 const ce = new XE({
@@ -101,7 +125,13 @@ const ce = new XE({
             },
             doActionOnLatestMatch: {
                 ifAllOf: ['action', 'latestMatch']
+            },
+            onTargetTransform: 'targetTransform',
+            doTransformOnExistingMatches: {
+                ifAllOf: ['targetTransformer', 'allMatches']
             }
+            // doTransformOnExistingMatches{
+            // }
         },
         style: {
             display: 'none'

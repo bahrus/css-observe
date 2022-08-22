@@ -4,6 +4,7 @@ export {CssObserveProps} from './types.js';
 //import {PropInfo, CE} from 'trans-render/lib/CE.js';
 import {XE} from 'xtal-element/src/XE.js';
 import {INotifyMixin, INotifyPropInfo, NotifyMixin} from 'trans-render/lib/mixins/notify.js';
+import {RenderContext} from 'trans-render/lib/types';
 
 export class CssObserveCore extends observeCssSelector(HTMLElement) implements CSSObserveActions{
     
@@ -67,6 +68,32 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) implements C
         if(el === undefined) return;
         action(el);
     }
+
+    async onTargetTransform({targetTransform}: this): Promise<P>{
+        const {DTR} = await import('trans-render/lib/DTR.js');
+        const ctx: RenderContext = {
+            host: this,
+            match: targetTransform
+        };
+        const targetTransformer = new DTR(ctx);
+        return {targetTransformer};
+    }
+
+    async doTransformOnExistingMatches({allMatches, targetTransformer}: this): Promise<void> {
+        for(const match of allMatches!){
+            const el = match.deref();
+            if(el === undefined) {
+                continue;
+            }
+            await targetTransformer!.transform(el as Element);
+        }
+    }
+
+    async doTransformOnLatestMatch({latestMatch, targetTransformer}: this): Promise<void> {
+        const el = latestMatch!.deref();
+        if(el === undefined) return;
+        await targetTransformer!.transform(el as Element);
+    }
 }
 type cc = CssObserveCore;
 type P = Partial<CssObserveCore>;
@@ -113,7 +140,14 @@ const ce = new XE<CssObserveProps, CSSObserveActions>({
             },
             doActionOnLatestMatch:{
                 ifAllOf: ['action', 'latestMatch']
+            },
+            onTargetTransform: 'targetTransform',
+            doTransformOnExistingMatches:{
+                ifAllOf: ['targetTransformer', 'allMatches']
             }
+            // doTransformOnExistingMatches{
+
+            // }
         },
         style:{
             display: 'none'
