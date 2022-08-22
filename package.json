@@ -1,16 +1,31 @@
 {
   "name": "css-observe",
   "version": "0.0.59",
+  "keywords": [
+    "web-components",
+    "web-component",
+    "custom-element",
+    "custom-elements",
+    "css"
+  ],
   "description": "Fire a custom event whenever an element matching a specified selector is added.",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "main": "css-observe.js",
   "module": "css-observe.js",
+  "exports":{
+    ".": "./css-observe.js",
+    "./css-observe.js": "./css-observe.js"
+  },
+  "files":[
+    "*.*"
+  ],
+  "types": "types.d.ts",
+  "type": "module",
   "scripts": {
     "test": "node test/test-all.js",
     "serve": "node node_modules/may-it-serve/serve.js",
-    "doc": "custom-elements-manifest analyze",
-    "example1": "wca analyze css-observe-example0.js --outFile example1.json",
-    "bundle": "rollup --config"
+    "package-check": "package-check",
+    "doc": "custom-elements-manifest analyze"
   },
   "dependencies": {
     "trans-render": "0.0.569",
@@ -20,7 +35,8 @@
   "devDependencies": {
     "be-observant": "0.0.131",
     "may-it-serve": "0.0.2",
-    "@custom-elements-manifest/analyzer": "0.6.4"
+    "@custom-elements-manifest/analyzer": "0.6.4",
+    "@skypack/package-check": "0.2.2"
   },
   "repository": {
     "type": "git",

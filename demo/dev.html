@@ -26,7 +26,9 @@
 <body>
     <div>
 
-        <css-observe observe selector="div[test]" script-ref=my-script ></css-observe>
+        <css-observe observe selector="div[test]" script-ref=my-script target-transform='{
+            "span": ["did transform"]
+        }' ></css-observe>
 
         <script id='my-script' nomodule be-exportable type=module>
             export const action = (el) => {
@@ -43,6 +45,7 @@
         <hr>
         <div test data-message="hello">
             I am here
+            <span></span>
         </div>
 
     </div>
