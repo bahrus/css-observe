@@ -59,6 +59,7 @@ export interface CssObserveProps extends CssObserveEndUserProps{
     action?: any;
     isC?: boolean;
     targetTransformer?: Transformer;
+    hostTransformer?: Transformer;
 }
 
 
@@ -74,4 +75,5 @@ export interface CSSObserveActions{
     onTargetTransform(self: this): void;
     doTransformOnExistingMatches(self: this): void;
     doTransformOnLatestMatch(self: this): void;
+    onHostTransform(self: this): void;
 }

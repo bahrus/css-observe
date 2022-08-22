@@ -68,6 +68,15 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
         const targetTransformer = new DTR(ctx);
         return { targetTransformer };
     }
+    async onHostTransform({ hostTransform }) {
+        const { DTR } = await import('trans-render/lib/DTR.js');
+        const ctx = {
+            host: this,
+            match: hostTransform
+        };
+        const hostTransformer = new DTR(ctx);
+        return { hostTransformer };
+    }
     async doTransformOnExistingMatches({ allMatches, targetTransformer }) {
         for (const match of allMatches) {
             const el = match.deref();
@@ -82,6 +91,9 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) {
         if (el === undefined)
             return;
         await targetTransformer.transform(el);
+    }
+    async doTransformOnHost({ hostTransformer }) {
+        await hostTransformer.transform(this.getRootNode());
     }
 }
 const tagName = 'css-observe';

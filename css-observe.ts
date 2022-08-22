@@ -79,6 +79,16 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) implements C
         return {targetTransformer};
     }
 
+    async onHostTransform({hostTransform}: this): Promise<P> {
+        const {DTR} = await import('trans-render/lib/DTR.js');
+        const ctx: RenderContext = {
+            host: this,
+            match: hostTransform
+        };
+        const hostTransformer = new DTR(ctx);
+        return {hostTransformer};
+    }
+
     async doTransformOnExistingMatches({allMatches, targetTransformer}: this): Promise<void> {
         for(const match of allMatches!){
             const el = match.deref();
@@ -93,6 +103,10 @@ export class CssObserveCore extends observeCssSelector(HTMLElement) implements C
         const el = latestMatch!.deref();
         if(el === undefined) return;
         await targetTransformer!.transform(el as Element);
+    }
+
+    async doTransformOnHost({hostTransformer}: this): Promise<void>{
+        await hostTransformer!.transform(this.getRootNode() as DocumentFragment);
     }
 }
 type cc = CssObserveCore;
