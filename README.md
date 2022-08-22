@@ -21,6 +21,11 @@ css-observe is a "web component as a service" that specializes in watching for D
 
 ```html
 <div>
+    <script id=my-script nomodule be-exporting>
+        export const action = (target) => {
+            target.setAttribute('I am here', '');
+        }
+    </script>
     <css-observe observe selector="div[test]" data-name="Clive" script-ref=my-script  options='{
         "targetTransform": {
             "span": "dataset.name"
@@ -30,11 +35,7 @@ css-observe is a "web component as a service" that specializes in watching for D
         }
     }'>
     </css-observe>
-    <script id=my-script nomodule be-exporting>
-        export const action = (target) => {
-            target.setAttribute('I am here', '');
-        }
-    </script>
+
     <div test>
         I am here, <span></span>
     </div>
