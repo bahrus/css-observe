@@ -1,6 +1,6 @@
 {
   "name": "css-observe",
-  "version": "0.0.59",
+  "version": "0.0.60",
   "keywords": [
     "web-components",
     "web-component",
@@ -12,11 +12,11 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "main": "css-observe.js",
   "module": "css-observe.js",
-  "exports":{
+  "exports": {
     ".": "./css-observe.js",
     "./css-observe.js": "./css-observe.js"
   },
-  "files":[
+  "files": [
     "*.*"
   ],
   "types": "types.d.ts",
