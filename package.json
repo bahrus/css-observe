@@ -28,12 +28,12 @@
     "doc": "custom-elements-manifest analyze"
   },
   "dependencies": {
-    "trans-render": "0.0.569",
-    "xtal-element": "0.0.511",
-    "be-exportable": "0.0.26"
+    "trans-render": "0.0.578",
+    "xtal-element": "0.0.514",
+    "be-exportable": "0.0.28"
   },
   "devDependencies": {
-    "be-observant": "0.0.131",
+    "be-observant": "0.0.134",
     "may-it-serve": "0.0.2",
     "@custom-elements-manifest/analyzer": "0.6.4",
     "@skypack/package-check": "0.2.2"
